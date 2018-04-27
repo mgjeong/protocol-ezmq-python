@@ -1,6 +1,6 @@
 import sys, time, struct, thread
 sys.path.append("..") 
-from build import ezmq
+from build import ezmqpy as ezmq
 from abc import ABCMeta, abstractmethod
 
 class callback(ezmq.pyCallbacks):

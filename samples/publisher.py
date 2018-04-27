@@ -1,6 +1,6 @@
 import sys, time, struct
 sys.path.append("..") 
-from build import ezmq
+from build import ezmqpy as ezmq
 
 print("Running publisher sample ")
 port = 5562
