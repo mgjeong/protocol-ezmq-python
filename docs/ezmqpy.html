@@ -1,0 +1,485 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module ezmqpy</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ezmqpy</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/arya/ezmq/current/build/ezmqpy.so">/home/arya/ezmq/current/build/ezmqpy.so</a></font></td></tr></table>
+    <p><tt>Documentation&nbsp;for&nbsp;EZMQ_PYTHON<br>
+&nbsp;<br>
+`ezmqpy`&nbsp;is&nbsp;a&nbsp;cython&nbsp;binding&nbsp;module&nbsp;written&nbsp;over&nbsp;protocol-ezmq-cpp(libezmq)&nbsp;so&nbsp;as&nbsp;to&nbsp;expose&nbsp;ezmq&nbsp;api's&nbsp;to&nbsp;python&nbsp;applications.<br>
+Some&nbsp;sample&nbsp;subscriber&nbsp;and&nbsp;publisher&nbsp;are&nbsp;provided&nbsp;to&nbsp;show&nbsp;use&nbsp;of&nbsp;API's.<br>
+&nbsp;<br>
+Copyright&nbsp;2017&nbsp;Samsung&nbsp;Electronics&nbsp;All&nbsp;Rights&nbsp;Reserved.<br>
+&nbsp;<br>
+Licensed&nbsp;under&nbsp;the&nbsp;Apache&nbsp;License,&nbsp;Version&nbsp;2.0&nbsp;(the&nbsp;"License")</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="__builtin__.html">__builtin__</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial">build.ezmqpy.pyCallbacks
+</font></dt><dt><font face="helvetica, arial">build.ezmqpy.pyEZMQAPI
+</font></dt><dt><font face="helvetica, arial">build.ezmqpy.pyEZMQMessage
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial">build.ezmqpy.pyEZMQByteData
+</font></dt><dt><font face="helvetica, arial">build.ezmqpy.pyEvent
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial">build.ezmqpy.pyEZMQPublisher
+</font></dt><dt><font face="helvetica, arial">build.ezmqpy.pyEZMQSubscriber
+</font></dt><dt><font face="helvetica, arial">build.ezmqpy.pyReading
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="pyCallbacks">class <strong>pyCallbacks</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Python&nbsp;abstract&nbsp;callback&nbsp;class.<br>
+This&nbsp;class&nbsp;contains&nbsp;two&nbsp;abstract&nbsp;callbacks&nbsp;to&nbsp;be&nbsp;implemented&nbsp;by&nbsp;subscriber.<br>
+Application&nbsp;must&nbsp;implement&nbsp;and&nbsp;pass&nbsp;instance&nbsp;of&nbsp;this&nbsp;class&nbsp;to&nbsp;constructor&nbsp;of&nbsp;pypyEZMQSubscriber&nbsp;to&nbsp;get&nbsp;callbacks.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.g.&nbsp;:&nbsp;subscriber&nbsp;=&nbsp;ezmq.<a href="#pyEZMQSubscriber">pyEZMQSubscriber</a>(ip,&nbsp;port,&nbsp;cb)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cb&nbsp;is&nbsp;an&nbsp;instance&nbsp;of&nbsp;callbacks&nbsp;class&nbsp;that&nbsp;implements&nbsp;<a href="#pyCallbacks">pyCallbacks</a>.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="pyCallbacks-subDataCB"><strong>subDataCB</strong></a>(...)</dt><dd><tt>Implement&nbsp;this&nbsp;to&nbsp;get&nbsp;general&nbsp;callbacks&nbsp;from&nbsp;publishers.<br>
+This&nbsp;callback&nbsp;is&nbsp;called&nbsp;for&nbsp;both&nbsp;with&nbsp;and&nbsp;without&nbsp;topics.</tt></dd></dl>
+
+<dl><dt><a name="pyCallbacks-subTopicDataCB"><strong>subTopicDataCB</strong></a>(...)</dt><dd><tt>Implement&nbsp;this&nbsp;to&nbsp;get&nbsp;callbacks&nbsp;for&nbsp;subscribed&nbsp;topics&nbsp;only.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__abstractmethods__</strong> = frozenset(['subDataCB', 'subTopicDataCB'])</dl>
+
+<dl><dt><strong>__qualname__</strong> = 'pyCallbacks'</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="pyEZMQAPI">class <strong>pyEZMQAPI</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;class&nbsp;contains&nbsp;APIs&nbsp;related&nbsp;to&nbsp;EZMQ&nbsp;stack.<br>
+e.g.&nbsp;:&nbsp;apiObj&nbsp;=&nbsp;ezmq.<a href="#pyEZMQAPI">pyEZMQAPI</a>()<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="pyEZMQAPI-getStatus"><strong>getStatus</strong></a>(...)</dt><dd><tt>Get&nbsp;the&nbsp;current&nbsp;status&nbsp;of&nbsp;EZMQ&nbsp;Service.<br>
+This&nbsp;API&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;check&nbsp;the&nbsp;status&nbsp;of&nbsp;the&nbsp;EZMQ&nbsp;stack.<br>
+@return:&nbsp;EZMQStatusCode</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQAPI-initialize"><strong>initialize</strong></a>(...)</dt><dd><tt>Initializes&nbsp;all&nbsp;required&nbsp;EZMQ&nbsp;components.<br>
+This&nbsp;API&nbsp;should&nbsp;be&nbsp;called&nbsp;first,&nbsp;before&nbsp;using&nbsp;any&nbsp;other&nbsp;EZMQ&nbsp;APIs.<br>
+@return:&nbsp;EZMQErrorCode</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQAPI-terminate"><strong>terminate</strong></a>(...)</dt><dd><tt>Terminates&nbsp;all&nbsp;initialized&nbsp;EZMQ&nbsp;components.<br>
+This&nbsp;API&nbsp;should&nbsp;be&nbsp;called&nbsp;to&nbsp;clean&nbsp;up&nbsp;at&nbsp;the&nbsp;end&nbsp;of&nbsp;EZMQ&nbsp;stack&nbsp;use.<br>
+@return:&nbsp;EZMQErrorCode</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#pyEZMQAPI-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="pyEZMQByteData">class <strong>pyEZMQByteData</strong></a>(pyEZMQMessage)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;class&nbsp;is&nbsp;derived&nbsp;from&nbsp;<a href="#pyEZMQMessage">pyEZMQMessage</a>&nbsp;for&nbsp;bytedata&nbsp;messages&nbsp;types.<br>
+It&nbsp;contains&nbsp;a&nbsp;pointer&nbsp;to&nbsp;native&nbsp;EZMQByteData&nbsp;instance.<br>
+&nbsp;<br>
+e.g&nbsp;::&nbsp;data&nbsp;=&nbsp;ezmq.<a href="#pyEZMQByteData">pyEZMQByteData</a>()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.<a href="#pyEZMQByteData-init">init</a>(event,&nbsp;len(event))&nbsp;[event&nbsp;is&nbsp;of&nbsp;type&nbsp;&nbsp;bytearray]<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd>pyEZMQByteData</dd>
+<dd>pyEZMQMessage</dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="pyEZMQByteData-getByteData"><strong>getByteData</strong></a>(...)</dt><dd><tt>Get&nbsp;Byte&nbsp;data&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;holds.<br>
+@return:&nbsp;byte&nbsp;data</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQByteData-getLength"><strong>getLength</strong></a>(...)</dt><dd><tt>Get&nbsp;length&nbsp;of&nbsp;data.<br>
+@return:&nbsp;Length&nbsp;of&nbsp;data.</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQByteData-init"><strong>init</strong></a>(...)</dt><dd><tt>This&nbsp;creates&nbsp;a&nbsp;new&nbsp;EZMQByteData&nbsp;instance&nbsp;in&nbsp;python<br>
+and&nbsp;stores&nbsp;it&nbsp;in&nbsp;a&nbsp;pointer&nbsp;to&nbsp;a&nbsp;native&nbsp;<a href="__builtin__.html#object">object</a>.<br>
+It&nbsp;also&nbsp;sets&nbsp;the&nbsp;delete&nbsp;flag&nbsp;used&nbsp;by&nbsp;python&nbsp;garbage&nbsp;collector&nbsp;to&nbsp;free&nbsp;it.<br>
+@param&nbsp;data:&nbsp;Byte&nbsp;Data<br>
+@param&nbsp;dataLength&nbsp;:&nbsp;Data&nbsp;length</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQByteData-setByteData"><strong>setByteData</strong></a>(...)</dt><dd><tt>Set&nbsp;Byte&nbsp;data.<br>
+This&nbsp;API&nbsp;is&nbsp;used&nbsp;to&nbsp;update&nbsp;existing&nbsp;data<br>
+@param&nbsp;data:&nbsp;Byte&nbsp;Data<br>
+@param&nbsp;dataLength:&nbsp;Data&nbsp;Length.<br>
+@return:&nbsp;EZMQErrorCode.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>deleteFlag</strong></dt>
+<dd><tt>This&nbsp;flag&nbsp;is&nbsp;set&nbsp;when&nbsp;EZMQByteData&nbsp;instance&nbsp;is&nbsp;created&nbsp;in&nbsp;python.<br>
+Thus&nbsp;python&nbsp;knows&nbsp;it&nbsp;has&nbsp;to&nbsp;delete&nbsp;the&nbsp;native&nbsp;instance.<br>
+Destructor&nbsp;not&nbsp;needed&nbsp;to&nbsp;be&nbsp;called&nbsp;explicitly.</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#pyEZMQByteData-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from pyEZMQMessage:<br>
+<dl><dt><a name="pyEZMQByteData-getContentType"><strong>getContentType</strong></a>(...)</dt><dd><tt>Get&nbsp;the&nbsp;content-type&nbsp;of&nbsp;EZMQMessage&nbsp;instance.<br>
+@return:&nbsp;integer&nbsp;for&nbsp;EZMQ&nbsp;content&nbsp;type</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQByteData-setContentType"><strong>setContentType</strong></a>(...)</dt><dd><tt>Set&nbsp;content&nbsp;type&nbsp;of&nbsp;EZMQMessage.<br>
+EZMQByteData&nbsp;will&nbsp;set&nbsp;it&nbsp;as&nbsp;EZMQ_CONTENT_TYPE_BYTEDATA.<br>
+and&nbsp;Event&nbsp;will&nbsp;set&nbsp;as&nbsp;EZMQ_CONTENT_TYPE_PROTOBUF&nbsp;by&nbsp;default.<br>
+@param&nbsp;types:&nbsp;content-type&nbsp;to&nbsp;be&nbsp;set<br>
+@return:&nbsp;Integer&nbsp;for&nbsp;EZMQ&nbsp;Error&nbsp;Code</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="pyEZMQMessage">class <strong>pyEZMQMessage</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;class&nbsp;is&nbsp;a&nbsp;parent&nbsp;class&nbsp;for&nbsp;event&nbsp;types.<br>
+It&nbsp;is&nbsp;used&nbsp;for&nbsp;typcasting&nbsp;bytedata/protobuf&nbsp;data&nbsp;for&nbsp;publishing&nbsp;OR<br>
+when&nbsp;receiving&nbsp;callbacks,&nbsp;it&nbsp;is&nbsp;typecasted&nbsp;into&nbsp;bytedata/protobuf&nbsp;data.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="pyEZMQMessage-getContentType"><strong>getContentType</strong></a>(...)</dt><dd><tt>Get&nbsp;the&nbsp;content-type&nbsp;of&nbsp;EZMQMessage&nbsp;instance.<br>
+@return:&nbsp;integer&nbsp;for&nbsp;EZMQ&nbsp;content&nbsp;type</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQMessage-setContentType"><strong>setContentType</strong></a>(...)</dt><dd><tt>Set&nbsp;content&nbsp;type&nbsp;of&nbsp;EZMQMessage.<br>
+EZMQByteData&nbsp;will&nbsp;set&nbsp;it&nbsp;as&nbsp;EZMQ_CONTENT_TYPE_BYTEDATA.<br>
+and&nbsp;Event&nbsp;will&nbsp;set&nbsp;as&nbsp;EZMQ_CONTENT_TYPE_PROTOBUF&nbsp;by&nbsp;default.<br>
+@param&nbsp;types:&nbsp;content-type&nbsp;to&nbsp;be&nbsp;set<br>
+@return:&nbsp;Integer&nbsp;for&nbsp;EZMQ&nbsp;Error&nbsp;Code</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#pyEZMQMessage-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="pyEZMQPublisher">class <strong>pyEZMQPublisher</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;class&nbsp;contains&nbsp;the&nbsp;APIs&nbsp;related&nbsp;to&nbsp;start,&nbsp;stop&nbsp;publish&nbsp;APIs.<br>
+It&nbsp;contains&nbsp;a&nbsp;pointer&nbsp;to&nbsp;native&nbsp;EZMQPublisher&nbsp;instance.<br>
+e.g.&nbsp;:&nbsp;publisher&nbsp;=&nbsp;ezmq.<a href="#pyEZMQPublisher">pyEZMQPublisher</a>(int&nbsp;port)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;publisher.<a href="#pyEZMQPublisher-start">start</a>()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;publisher.<a href="#pyEZMQPublisher-publish">publish</a>(data)&nbsp;[data&nbsp;is&nbsp;of&nbsp;type&nbsp;<a href="#pyEZMQMessage">pyEZMQMessage</a>]<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="pyEZMQPublisher-getPort"><strong>getPort</strong></a>(...)</dt><dd><tt>Get&nbsp;the&nbsp;port&nbsp;of&nbsp;the&nbsp;publisher.<br>
+@return:&nbsp;Integer&nbsp;port&nbsp;number</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQPublisher-publish"><strong>publish</strong></a>(...)</dt><dd><tt>Publish&nbsp;events&nbsp;on&nbsp;a&nbsp;specific&nbsp;topic&nbsp;&nbsp;on&nbsp;the&nbsp;socket&nbsp;for&nbsp;subscribers.<br>
+&nbsp;<br>
+e.g.::&nbsp;===&gt;publisher.<a href="#pyEZMQPublisher-publish">publish</a>(data)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;publishing&nbsp;without&nbsp;topic<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;===&gt;publisher.<a href="#pyEZMQPublisher-publish">publish</a>(data,&nbsp;topic=/home/livingroom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;publishing&nbsp;with&nbsp;topic&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+@param&nbsp;event:&nbsp;event&nbsp;to&nbsp;be&nbsp;published<br>
+@type&nbsp;event:&nbsp;L{<a href="#pyEZMQMessage">pyEZMQMessage</a>}<br>
+@param&nbsp;topic:&nbsp;[Optional]&nbsp;Topic&nbsp;on&nbsp;which&nbsp;event&nbsp;is&nbsp;to&nbsp;be&nbsp;published.<br>
+@type&nbsp;topic:&nbsp;String<br>
+@note:&nbsp;(1)&nbsp;Topic&nbsp;name&nbsp;should&nbsp;be&nbsp;as&nbsp;path&nbsp;format.&nbsp;E.g.'home/livingroom/'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2)&nbsp;Topic&nbsp;name&nbsp;can&nbsp;have&nbsp;letters&nbsp;[a-z,&nbsp;A-z],&nbsp;numerics&nbsp;[0-9]&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;special&nbsp;characters&nbsp;_&nbsp;-&nbsp;.&nbsp;and&nbsp;/<br>
+@return:&nbsp;Integer&nbsp;for&nbsp;EZMQ&nbsp;error&nbsp;code.</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQPublisher-start"><strong>start</strong></a>(...)</dt><dd><tt>Start&nbsp;publisher&nbsp;instance.<br>
+@return:&nbsp;Integer&nbsp;for&nbsp;stack&nbsp;error&nbsp;codes</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQPublisher-stop"><strong>stop</strong></a>(...)</dt><dd><tt>Stop&nbsp;publisher&nbsp;instance.<br>
+@return:&nbsp;Integer&nbsp;for&nbsp;stack&nbsp;error&nbsp;codes.</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#pyEZMQPublisher-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="pyEZMQSubscriber">class <strong>pyEZMQSubscriber</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;class&nbsp;contains&nbsp;the&nbsp;APIs&nbsp;related&nbsp;to&nbsp;start,&nbsp;stop&nbsp;subscriber&nbsp;APIs.<br>
+It&nbsp;contains&nbsp;a&nbsp;pointer&nbsp;to&nbsp;native&nbsp;EZMQSubscriber&nbsp;instance.<br>
+e.g.&nbsp;::&nbsp;==&gt;&nbsp;subscriber&nbsp;=&nbsp;ezmq.<a href="#pyEZMQSubscriber">pyEZMQSubscriber</a>(string&nbsp;ip,&nbsp;int&nbsp;port,&nbsp;cb)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cb&nbsp;is&nbsp;instance&nbsp;of&nbsp;implementation&nbsp;of&nbsp;ezmq.<a href="#pyCallbacks">pyCallbacks</a>&nbsp;class.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;==&gt;&nbsp;subscriber.<a href="#pyEZMQSubscriber-start">start</a>()<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;==&gt;subscriber.<a href="#pyEZMQSubscriber-subscribe">subscribe</a>()&nbsp;or&nbsp;==&gt;subscriber.<a href="#pyEZMQSubscriber-subscribe">subscribe</a>(topic=topicStr)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="pyEZMQSubscriber-getIp"><strong>getIp</strong></a>(...)</dt><dd><tt>Get&nbsp;IP&nbsp;address<br>
+@return:&nbsp;IP&nbsp;address&nbsp;as&nbsp;string.</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQSubscriber-getPort"><strong>getPort</strong></a>(...)</dt><dd><tt>Get&nbsp;port&nbsp;of&nbsp;subscriber.<br>
+@return:&nbsp;Integer&nbsp;of&nbsp;port.</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQSubscriber-start"><strong>start</strong></a>(...)</dt><dd><tt>Start&nbsp;the&nbsp;subscriber&nbsp;instance.<br>
+@return:&nbsp;EZMQErrorCodes</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQSubscriber-stop"><strong>stop</strong></a>(...)</dt><dd><tt>Stop&nbsp;the&nbsp;subscriber&nbsp;instance.<br>
+@return:&nbsp;EZMQErrorCodes</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQSubscriber-subscribe"><strong>subscribe</strong></a>(...)</dt><dd><tt>Subscribe&nbsp;for&nbsp;an&nbsp;event/message&nbsp;on&nbsp;a&nbsp;particular&nbsp;topic&nbsp;or&nbsp;otherwise.<br>
+@param&nbsp;topic:&nbsp;[Optional]&nbsp;Topic&nbsp;on&nbsp;which&nbsp;event&nbsp;is&nbsp;to&nbsp;be&nbsp;published.<br>
+@type&nbsp;topic:&nbsp;L{string}<br>
+@note:&nbsp;(1)&nbsp;Topic&nbsp;name&nbsp;should&nbsp;be&nbsp;as&nbsp;path&nbsp;format.&nbsp;E.g.'home/livingroom/'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2)&nbsp;Topic&nbsp;name&nbsp;can&nbsp;have&nbsp;letters&nbsp;[a-z,&nbsp;A-z],&nbsp;numerics&nbsp;[0-9]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;special&nbsp;characters&nbsp;_&nbsp;-&nbsp;.&nbsp;and&nbsp;/.<br>
+@return:&nbsp;EZMQErrorCodes.</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#pyEZMQSubscriber-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="pyEvent">class <strong>pyEvent</strong></a>(pyEZMQMessage)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;class&nbsp;is&nbsp;derived&nbsp;from&nbsp;<a href="#pyEZMQMessage">pyEZMQMessage</a>&nbsp;class&nbsp;for&nbsp;protobuf&nbsp;messages.<br>
+It&nbsp;contains&nbsp;a&nbsp;pointer&nbsp;to&nbsp;native&nbsp;Event&nbsp;instance.<br>
+&nbsp;<br>
+e.g.&nbsp;::&nbsp;event&nbsp;=&nbsp;ezmq.<a href="#pyEvent">pyEvent</a>()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;event.<a href="#pyEvent-init">init</a>()<br>
+&nbsp;<br>
+Attributes&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deleteFlag&nbsp;:&nbsp;This&nbsp;flag&nbsp;is&nbsp;set&nbsp;when&nbsp;native&nbsp;instance&nbsp;is&nbsp;created&nbsp;in&nbsp;python<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd>pyEvent</dd>
+<dd>pyEZMQMessage</dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="pyEvent-add_reading"><strong>add_reading</strong></a>(...)</dt><dd><tt>Initialize&nbsp;<a href="#pyReading">pyReading</a>&nbsp;instance&nbsp;for&nbsp;<a href="#pyEvent">pyEvent</a>&nbsp;and&nbsp;stores&nbsp;their&nbsp;native&nbsp;pointers.<br>
+All&nbsp;Reading&nbsp;APIs&nbsp;are&nbsp;to&nbsp;be&nbsp;called&nbsp;on&nbsp;this&nbsp;instance.<br>
+@return:&nbsp;instance&nbsp;of&nbsp;<a href="#pyReading">pyReading</a>&nbsp;containing&nbsp;pointer&nbsp;to&nbsp;new&nbsp;Reading&nbsp;instance</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-created"><strong>created</strong></a>(...)</dt><dd><tt>Get&nbsp;created&nbsp;field&nbsp;of&nbsp;the&nbsp;event<br>
+@return:&nbsp;created&nbsp;as&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-device"><strong>device</strong></a>(...)</dt><dd><tt>Get&nbsp;device&nbsp;field&nbsp;of&nbsp;the&nbsp;event<br>
+@return:&nbsp;device&nbsp;as&nbsp;string</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-id"><strong>id</strong></a>(...)</dt><dd><tt>Get&nbsp;ID&nbsp;field&nbsp;of&nbsp;the&nbsp;event<br>
+@return:&nbsp;id&nbsp;as&nbsp;string</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-init"><strong>init</strong></a>(...)</dt><dd><tt>This&nbsp;creates&nbsp;a&nbsp;new&nbsp;Event&nbsp;instance&nbsp;in&nbsp;python&nbsp;and&nbsp;stores&nbsp;it<br>
+&nbsp;in&nbsp;a&nbsp;pointer&nbsp;to&nbsp;a&nbsp;native&nbsp;<a href="__builtin__.html#object">object</a>.&nbsp;It&nbsp;also&nbsp;sets&nbsp;the&nbsp;delete&nbsp;flag,&nbsp;<br>
+used&nbsp;by&nbsp;python&nbsp;garbage&nbsp;collector&nbsp;to&nbsp;free&nbsp;it.</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-modified"><strong>modified</strong></a>(...)</dt><dd><tt>Get&nbsp;modified&nbsp;field&nbsp;of&nbsp;the&nbsp;event<br>
+@return:&nbsp;modified&nbsp;as&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-mutable_reading"><strong>mutable_reading</strong></a>(...)</dt><dd><tt>Get&nbsp;reading&nbsp;for&nbsp;a&nbsp;given&nbsp;index&nbsp;of&nbsp;the&nbsp;event<br>
+@param&nbsp;index:&nbsp;index&nbsp;for&nbsp;which&nbsp;reading&nbsp;is&nbsp;required<br>
+@return:&nbsp;instance&nbsp;of&nbsp;<a href="#pyReading">pyReading</a>&nbsp;containing&nbsp;pointer&nbsp;to&nbsp;Reading&nbsp;instance</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-origin"><strong>origin</strong></a>(...)</dt><dd><tt>Get&nbsp;origin&nbsp;field&nbsp;of&nbsp;the&nbsp;event<br>
+@return:&nbsp;origin&nbsp;as&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-pushed"><strong>pushed</strong></a>(...)</dt><dd><tt>Get&nbsp;pushed&nbsp;field&nbsp;of&nbsp;the&nbsp;event<br>
+@return:&nbsp;pushed&nbsp;as&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-reading"><strong>reading</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="pyEvent-reading_size"><strong>reading_size</strong></a>(...)</dt><dd><tt>Get&nbsp;reading&nbsp;count&nbsp;of&nbsp;the&nbsp;event<br>
+@return:&nbsp;reading&nbsp;count&nbsp;as&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-set_created"><strong>set_created</strong></a>(...)</dt><dd><tt>Set&nbsp;created&nbsp;field&nbsp;of&nbsp;the&nbsp;event.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;created<br>
+@type&nbsp;value:&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-set_device"><strong>set_device</strong></a>(...)</dt><dd><tt>Set&nbsp;device&nbsp;field&nbsp;of&nbsp;the&nbsp;event.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;device<br>
+@type&nbsp;value:&nbsp;const&nbsp;char*</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-set_id"><strong>set_id</strong></a>(...)</dt><dd><tt>Set&nbsp;ID&nbsp;field&nbsp;of&nbsp;the&nbsp;event.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;ID<br>
+@type&nbsp;value:&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-set_modified"><strong>set_modified</strong></a>(...)</dt><dd><tt>Set&nbsp;modified&nbsp;field&nbsp;of&nbsp;the&nbsp;event.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;modified<br>
+@type&nbsp;value:&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-set_origin"><strong>set_origin</strong></a>(...)</dt><dd><tt>Set&nbsp;origin&nbsp;field&nbsp;of&nbsp;the&nbsp;event.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;origin<br>
+@type&nbsp;value:&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-set_pushed"><strong>set_pushed</strong></a>(...)</dt><dd><tt>Set&nbsp;pushed&nbsp;field&nbsp;of&nbsp;the&nbsp;event.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;pushed<br>
+@type&nbsp;value:&nbsp;Integer</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>deleteFlag</strong></dt>
+<dd><tt>This&nbsp;flag&nbsp;is&nbsp;set&nbsp;when&nbsp;Event&nbsp;instance&nbsp;is&nbsp;created&nbsp;in&nbsp;python.<br>
+Thus&nbsp;python&nbsp;knows&nbsp;it&nbsp;has&nbsp;to&nbsp;delete&nbsp;the&nbsp;native&nbsp;instance.<br>
+Destructor&nbsp;need&nbsp;not&nbsp;to&nbsp;be&nbsp;called&nbsp;explicitly.</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#pyEvent-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from pyEZMQMessage:<br>
+<dl><dt><a name="pyEvent-getContentType"><strong>getContentType</strong></a>(...)</dt><dd><tt>Get&nbsp;the&nbsp;content-type&nbsp;of&nbsp;EZMQMessage&nbsp;instance.<br>
+@return:&nbsp;integer&nbsp;for&nbsp;EZMQ&nbsp;content&nbsp;type</tt></dd></dl>
+
+<dl><dt><a name="pyEvent-setContentType"><strong>setContentType</strong></a>(...)</dt><dd><tt>Set&nbsp;content&nbsp;type&nbsp;of&nbsp;EZMQMessage.<br>
+EZMQByteData&nbsp;will&nbsp;set&nbsp;it&nbsp;as&nbsp;EZMQ_CONTENT_TYPE_BYTEDATA.<br>
+and&nbsp;Event&nbsp;will&nbsp;set&nbsp;as&nbsp;EZMQ_CONTENT_TYPE_PROTOBUF&nbsp;by&nbsp;default.<br>
+@param&nbsp;types:&nbsp;content-type&nbsp;to&nbsp;be&nbsp;set<br>
+@return:&nbsp;Integer&nbsp;for&nbsp;EZMQ&nbsp;Error&nbsp;Code</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="pyReading">class <strong>pyReading</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>An&nbsp;instance&nbsp;of&nbsp;this&nbsp;class&nbsp;is&nbsp;returned&nbsp;for&nbsp;the&nbsp;add_event&nbsp;API&nbsp;of&nbsp;<a href="#pyEvent">pyEvent</a>&nbsp;class.&nbsp;<br>
+It&nbsp;contains&nbsp;a&nbsp;pointer&nbsp;to&nbsp;native&nbsp;Reading&nbsp;instance.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="pyReading-created"><strong>created</strong></a>(...)</dt><dd><tt>Get&nbsp;created&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@return:&nbsp;created&nbsp;as&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyReading-device"><strong>device</strong></a>(...)</dt><dd><tt>Get&nbsp;device&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@return:&nbsp;device&nbsp;as&nbsp;string</tt></dd></dl>
+
+<dl><dt><a name="pyReading-id"><strong>id</strong></a>(...)</dt><dd><tt>Get&nbsp;id&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@return:&nbsp;ID&nbsp;as&nbsp;string</tt></dd></dl>
+
+<dl><dt><a name="pyReading-modified"><strong>modified</strong></a>(...)</dt><dd><tt>Get&nbsp;modified&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@return:&nbsp;modified&nbsp;as&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyReading-name"><strong>name</strong></a>(...)</dt><dd><tt>Get&nbsp;<a href="#pyReading-name">name</a>(key-value)&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@return:&nbsp;name&nbsp;as&nbsp;string</tt></dd></dl>
+
+<dl><dt><a name="pyReading-origin"><strong>origin</strong></a>(...)</dt><dd><tt>Get&nbsp;origin&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@return:&nbsp;origin&nbsp;as&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyReading-pushed"><strong>pushed</strong></a>(...)</dt><dd><tt>Get&nbsp;pushed&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@return:&nbsp;pushed&nbsp;as&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyReading-set_created"><strong>set_created</strong></a>(...)</dt><dd><tt>Set&nbsp;created&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;created<br>
+@type&nbsp;value:&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyReading-set_device"><strong>set_device</strong></a>(...)</dt><dd><tt>Set&nbsp;device&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;device.<br>
+@type&nbsp;value:&nbsp;const&nbsp;char*</tt></dd></dl>
+
+<dl><dt><a name="pyReading-set_id"><strong>set_id</strong></a>(...)</dt><dd><tt>Set&nbsp;ID&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;ID<br>
+@type&nbsp;value:&nbsp;const&nbsp;char*</tt></dd></dl>
+
+<dl><dt><a name="pyReading-set_modified"><strong>set_modified</strong></a>(...)</dt><dd><tt>Set&nbsp;modified&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;modified<br>
+@type&nbsp;value:&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyReading-set_name"><strong>set_name</strong></a>(...)</dt><dd><tt>Set&nbsp;name&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;<a href="#pyReading-name">name</a>(key-value).<br>
+@type&nbsp;value:&nbsp;const&nbsp;char*</tt></dd></dl>
+
+<dl><dt><a name="pyReading-set_origin"><strong>set_origin</strong></a>(...)</dt><dd><tt>Set&nbsp;origin&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;origin<br>
+@type&nbsp;value:&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyReading-set_pushed"><strong>set_pushed</strong></a>(...)</dt><dd><tt>Set&nbsp;pushed&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;pushed<br>
+@type&nbsp;value:&nbsp;Integer</tt></dd></dl>
+
+<dl><dt><a name="pyReading-set_value"><strong>set_value</strong></a>(...)</dt><dd><tt>Set&nbsp;ID&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@param&nbsp;value:&nbsp;value&nbsp;of&nbsp;<a href="#pyReading-value">value</a>(key-value).<br>
+@type&nbsp;value:&nbsp;const&nbsp;char*</tt></dd></dl>
+
+<dl><dt><a name="pyReading-value"><strong>value</strong></a>(...)</dt><dd><tt>Get&nbsp;<a href="#pyReading-value">value</a>(key-value)&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
+@return:&nbsp;value&nbsp;as&nbsp;string</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#pyReading-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-contentString"><strong>contentString</strong></a>(...)</dt><dd><tt><a href="#-contentString">contentString</a>(value)<br>
+This&nbsp;is&nbsp;a&nbsp;method&nbsp;to&nbsp;get&nbsp;Content&nbsp;String&nbsp;value&nbsp;for&nbsp;passed&nbsp;EZMQContentType&nbsp;if&nbsp;present.<br>
+@param&nbsp;value:&nbsp;EZMQContentType<br>
+@return:&nbsp;String</tt></dd></dl>
+ <dl><dt><a name="-errorString"><strong>errorString</strong></a>(...)</dt><dd><tt><a href="#-errorString">errorString</a>(value)<br>
+This&nbsp;is&nbsp;a&nbsp;method&nbsp;to&nbsp;get&nbsp;Error&nbsp;String&nbsp;value&nbsp;for&nbsp;passed&nbsp;EZMQErrorCode&nbsp;if&nbsp;present.<br>
+@param&nbsp;value:&nbsp;EZMQErrorCode<br>
+@return:&nbsp;String</tt></dd></dl>
+ <dl><dt><a name="-statusString"><strong>statusString</strong></a>(...)</dt><dd><tt><a href="#-statusString">statusString</a>(value)<br>
+This&nbsp;is&nbsp;a&nbsp;method&nbsp;to&nbsp;get&nbsp;Status&nbsp;String&nbsp;value&nbsp;for&nbsp;passed&nbsp;EZMQStatusCode&nbsp;if&nbsp;present.<br>
+@param&nbsp;value:&nbsp;EZMQStatusCode<br>
+@return:&nbsp;String</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__test__</strong> = {}</td></tr></table>
+</body></html>
