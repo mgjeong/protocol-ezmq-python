@@ -6,7 +6,7 @@ print "\n********************** Build Starting ***************************\n"
 from distutils.core import setup
 from distutils.extension import Extension
 from Cython.Distutils import build_ext
-import numpy, sys, os
+import numpy, sys, os, platform
 
 extlibs = "dependencies/"
 ezmq = "protocol-ezmq-cpp/"
@@ -30,9 +30,16 @@ inc_dirs.append(protobuf + "src")
 
 if target_os == "linux2":
 	
-	extra_objs.append(ezmqcpp + "out/linux/x86/release/libezmq.a")
-	extra_objs.append("/usr/local/lib/libzmq.a")
-	extra_objs.append(protobuf + "src/.libs/libprotobuf.a")
+	target_arch = platform.machine()
+
+	if target_arch in ['i686', 'x86']:
+		extra_objs.append(ezmqcpp + "out/linux/x86/release/libezmq.a")
+		extra_objs.append("/usr/local/lib/libzmq.a")
+		extra_objs.append(protobuf + "src/.libs/libprotobuf.a")
+	elif target_arch in ['x86_64']:
+		extra_objs.append(ezmqcpp + "out/linux/x86_64/release/libezmq.a")
+		extra_objs.append("/usr/local/lib/libzmq.so")
+		extra_objs.append(protobuf + "src/.libs/libprotobuf.so")
 	
 	compile_flags.append("-std=c++0x")
 
