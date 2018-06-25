@@ -61,7 +61,14 @@ build_x86() {
 }
 
 build_x86_64() {
-    echo -e "Not supported for now."
+    echo -e "Building for x86_64."
+
+    if [ ${EZMQ_WITH_DEP} = true ]; then
+        install_dependencies
+    fi
+
+    #build cython using setup file.
+    python setup.py build_ext --inplace
 }
 
 usage() {
