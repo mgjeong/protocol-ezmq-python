@@ -1,6 +1,6 @@
 import sys, time, struct
 sys.path.append("..") 
-from build import ezmqpy as ezmq
+from build import ezmqcy as ezmq
 
 def getEventData():
 	event = ezmq.pyEvent()

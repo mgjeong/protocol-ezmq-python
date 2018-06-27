@@ -1,3 +1,5 @@
+# cython: linetrace=True
+# cython: binding=True
 '''
 Documentation for EZMQ_PYTHON
 
@@ -8,20 +10,23 @@ Copyright 2017 Samsung Electronics All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License")'''
 
-cimport ezmqPublisher, ezmqMessage, ezmqErrorCode, ezmqByteData, ezmqAPI, ezmqSubscriber, ezmqEvent, ezmqReading
+from inc cimport ezmqPublisher, ezmqMessage, ezmqErrorCode, ezmqByteData, ezmqAPI, ezmqSubscriber, ezmqEvent, ezmqReading
 from abc import ABCMeta, abstractmethod
 from libcpp.list cimport list as clist
 from libcpp.string cimport string
 from libc.stdio cimport printf
 from cython.operator cimport dereference as deref
-from ezmqErrorCode cimport  *
-from ezmqMessage cimport * 
-from ezmqPublisher cimport EZMQPublisher
-from ezmqSubscriber cimport EZMQSubscriber
-from ezmqByteData cimport EZMQByteData, dynamic_cast, const_cast
-from ezmqAPI cimport EZMQAPI, EZMQAPI_GetInstance 
-from ezmqEvent cimport Event, dynamic_cast_event, const_cast_event 
-from ezmqReading cimport Reading
+from inc.ezmqErrorCode cimport  *
+from inc.ezmqMessage cimport * 
+from inc.ezmqPublisher cimport EZMQPublisher
+from inc.ezmqSubscriber cimport EZMQSubscriber
+from inc.ezmqByteData cimport EZMQByteData, dynamic_cast, const_cast
+from inc.ezmqAPI cimport EZMQAPI, EZMQAPI_GetInstance 
+from inc.ezmqEvent cimport Event, dynamic_cast_event, const_cast_event 
+from inc.ezmqReading cimport Reading
+
+def __invalidInputException(cause):
+	raise ValueError("ERROR : " + cause)
 
 class pyCallbacks(metaclass=ABCMeta):
 	''' 
@@ -141,10 +146,6 @@ cdef class pyEZMQAPI:
 		and stores it in a pointer to native object.
 		All future API calls are made on this native instance.'''
 		self.ezmqApi = EZMQAPI_GetInstance()
-		if self.ezmqApi is NULL:
-			print("FAILED TO GET EZMQ API INSTANCE")
-		else:
-			print("EZMQ API GET INSTANCE SUCCESSFULL")
 	
 	def initialize(self):
 		'''
@@ -218,10 +219,6 @@ cdef class pyEZMQByteData(pyEZMQMessage):
 		@param dataLength : Data length'''
 		self.bd = self.msg = new EZMQByteData(data, dataLength)
 		self.deleteFlag = 1
-		if self.bd is NULL:
-			print("ERROR : FAILED TO GET EZMQ BYTEDATA OBJECT")
-		else:
-			print("EZMQ BYTEDATA OBJECT CREATED SUCCESSFULLY")
 	def __dealloc__(self):
 		'''
 		__dealloc__(self)
@@ -229,7 +226,6 @@ cdef class pyEZMQByteData(pyEZMQMessage):
 		This needs not to be called explicitly.
 		It is automatically invoked when it goes out of scope.'''
 		if self.bd is not NULL and self.deleteFlag is 1:
-			print "DELETING BYTEDATA OBJECT HERE"
 			del self.bd
 	def getLength(self):
 		'''
@@ -276,10 +272,6 @@ cdef class pyEZMQPublisher:
                 @param _cy_stopCB: start callback
                 @param _cy_errorCB: start callback'''
 		self.pub = new EZMQPublisher(port, _cy_startCB, _cy_stopCB, _cy_errorCB)
-		if self.pub is NULL:
-			print("ERROR : FAILED TO GET EZMQ PUBLISHER OBJECT")
-		else:
-			print("EZMQ PUBLISHER OBJECT CREATED SUCCESSFULLY")
 	def __dealloc__(self):
 		if self.pub is not NULL:
 			del self.pub
@@ -342,10 +334,6 @@ cdef class pyEZMQSubscriber:
                 @param _cy_subTopicCB: subscriber callback to receive events for a particular topi'''		
 		_cythonClass().setCallbacks(subCB)
 		self.sub = new EZMQSubscriber(ip, port, _cy_subCB, _cy_subTopicCB)
-		if self.sub is NULL:
-			print("ERROR : FAILED TO GET EZMQ SUBSCRIBER OBJECT")
-		else:
-			print("EZMQ SUBSCRIBER OBJECT CREATED SUCCESSFULLY")
 	def __dealloc__(self):
 		if self.sub is not NULL:	
 			del self.sub
@@ -382,7 +370,7 @@ cdef class pyEZMQSubscriber:
 			elif isinstance(kwargs["topic"], str):
 				return self.sub.subscribe(<string>kwargs["topic"])
 			else:
-				print "INVALID topic type parameter error."
+				__invalidInputException("INVALID topic type")
 		else:
 			return self.sub.subscribe()
 	def unSubscribe(self, **kwargs):
@@ -407,6 +395,8 @@ cdef class pyEZMQSubscriber:
 				return self.sub.unSubscribe(<clist[string]>kwargs["topic"])
 			elif isinstance(kwargs["topic"], str):
 				return self.sub.unSubscribe(<string>kwargs["topic"])
+			else:
+				__invalidInputException("INVALID topic type")
 		else:
 			return self.sub.unSubscribe()
 	def stop(self):
@@ -539,7 +529,7 @@ cdef class pyEvent(pyEZMQMessage):
         This flag is set when Event instance is created in python.
         Thus python knows it has to delete the native instance.
         Destructor need not to be called explicitly.'''
-	def __cinit(self):
+	def __cinit__(self):
 		'''This creates an empty pyEvent object, with no reference to native.
                 A reference must be set by calling init API for new or by using factory
                 APIs to set the reference to existing native object.'''
@@ -558,7 +548,6 @@ cdef class pyEvent(pyEZMQMessage):
                 This need not to be called explicitly.
                 It is automatically invoked when object goes out of scope.'''
 		if self.event is not NULL and self.deleteFlag is 1:
-			print "DELETING EVENT OBJECT"
 			del self.event
 	def id(self):
 		'''

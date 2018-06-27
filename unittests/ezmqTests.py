@@ -1,12 +1,89 @@
-import sys, unittest
+import sys, unittest, threading, os, time
 sys.path.append("..")
-from build import ezmqpy as ezmq
+sys.path.append(".")
+from build import ezmqcy as ezmq
 
 class callback(ezmq.pyCallbacks):
 	def subTopicDataCB(self, topicStr, eventMessage):
-		pass
+		print "subTopicDataCB received"
 	def subDataCB(self, eventMessage):
-		pass
+		print "subDataCB received"
+
+def publish(**kwargs):
+	port = 5562
+	if "port" in kwargs:
+		port = kwargs["port"]
+
+	topicName = ""
+	if "topic" in kwargs:
+		topicName = kwargs["topic"]
+
+	counter = 0
+	if "counter" in kwargs:
+		counter = kwargs["counter"]
+
+	apiObj = ezmq.pyEZMQAPI()
+	apiObj.initialize()
+	publisher = ezmq.pyEZMQPublisher(int(port))
+	publisher.start()
+
+	while counter != 0 :
+		event = bytearray([94, 91, 101, 125, 111, 35, 120, 101, 115, 101, 200, 255, 250, 13,])
+		length = len(event)
+		data = ezmq.pyEZMQByteData()
+		data.init(event, len(event))
+		d = bytearray(data.getByteData())
+		dl = data.getLength()
+		print "  DATA : ", list(d[0:dl])
+		print "  DATA LENGTH : ", dl
+		if topicName == "":
+			ret = publisher.publish(data)
+		else:
+			print "TOPIC ", topicName
+			ret = publisher.publish(data, topic=topicName)
+
+		print counter, 'EVENT PUBLISH RESULT :: ', ezmq.errorString(ret)
+		counter -= 1
+		time.sleep(1)
+	publisher.stop()
+	apiObj.terminate()
+
+def subscribe(**kwargs):
+	ip = "localhost"
+
+	port = 5562
+	if "port" in kwargs:
+		port = kwargs["port"]
+
+	topicName = ""
+	if "topic" in kwargs:
+		topicName = kwargs["topic"]
+
+	counter = 0
+	if "counter" in kwargs:
+		counter = kwargs["counter"]
+
+	apiObj = ezmq.pyEZMQAPI()
+	apiObj.initialize()
+	cb = callback()
+	subscriber = ezmq.pyEZMQSubscriber(ip, int(port), cb)
+	subscriber.start()
+	if topicName == "":
+		subscriber.subscribe()
+	else:
+		subscriber.subscribe(topic=topicName)
+	while counter != 0 :
+		time.sleep(1)
+		counter -= 1
+
+	if topicName == "":
+		subscriber.unSubscribe()
+	else:
+		subscriber.unSubscribe(topic=topicName)
+
+	subscriber.stop()
+	apiObj.terminate()
+
 
 class EZMQTests(unittest.TestCase):
 
@@ -31,7 +108,7 @@ class EZMQTests(unittest.TestCase):
 		self.assertEqual(ezmq.errorString(2), "EZMQ_INVALID_TOPIC")
 		self.assertEqual(ezmq.errorString(3), "EZMQ_INVALID_CONTENT_TYPE")
 
-	def t_statusString_N(self):
+	def test_statusString_N(self):
 		self.assertNotEqual(ezmq.statusString(1), "EZMQ_Unknown")
 		self.assertNotEqual(ezmq.statusString(2), "EZMQ_Unknown")
 		self.assertNotEqual(ezmq.statusString(3), "EZMQ_Unknown")
@@ -40,8 +117,6 @@ class EZMQTests(unittest.TestCase):
 		self.assertNotEqual(ezmq.statusString(0), "EZMQ_Initialized")
 		self.assertNotEqual(ezmq.statusString(3), "EZMQ_Initialized")
 		self.assertNotEqual(ezmq.statusString(2), "EZMQ_Terminated")
-		self.assertNotEqual(ezmq.statusString(-1), "EZMQ_Terminated")
-		self.assertNotEqual(ezmq.statusString(10), "EZMQ_Terminated")
 
 	def test_statusString_P(self):
 		self.assertEqual(ezmq.statusString(0), "EZMQ_Unknown")
@@ -403,6 +478,44 @@ class EZMQTests(unittest.TestCase):
 		self.assertEqual("EZMQ_OK", ezmq.errorString(ret))
 
 		del subscriber, subscriber_cb, apiObj
+
+	def test_pySubscriber_withInvalidTopic(self):
+		apiObj = ezmq.pyEZMQAPI()
+		apiObj.initialize()
+		subscriber_cb = callback()
+		subscriber = ezmq.pyEZMQSubscriber("localhost", int(5562), subscriber_cb)
+		self.assertNotEqual(subscriber, None)
+		subscriber.start()
+		self.assertRaises(ValueError, subscriber.subscribe, topic=4452)	
+		self.assertRaises(ValueError, subscriber.subscribe, topic=0)	
+		self.assertRaises(ValueError, subscriber.subscribe, topic=1.55)		
+		
+		topicString = "sample/string"
+		ret = subscriber.subscribe(topic=topicString)
+		self.assertEqual("EZMQ_OK", ezmq.errorString(ret))
+
+		self.assertRaises(ValueError, subscriber.unSubscribe, topic=4452)
+		self.assertRaises(ValueError, subscriber.unSubscribe, topic=22)
+		self.assertRaises(ValueError, subscriber.unSubscribe, topic=1.2589)
+
+		ret = subscriber.unSubscribe(topic=topicString)
+		self.assertEqual("EZMQ_OK", ezmq.errorString(ret))
+		ret = subscriber.stop()
+		self.assertEqual("EZMQ_OK", ezmq.errorString(ret))
+
+		ret = apiObj.terminate()
+		self.assertEqual("EZMQ_OK", ezmq.errorString(ret))	
+
+		del subscriber, subscriber_cb, apiObj
+
+	def test_pyPublishAndSubscribe_NoTopic(self):
+		thread1 = threading.Thread(target=publish, kwargs={'port': 5563, 'topic': "/apple", 'counter': 5})
+		thread2 = threading.Thread(target=subscribe, kwargs={'port': 5563, 'topic': "/apple", 'counter': 5})
+		thread1.start()
+		subscribe(port=5563, topic="/apple", counter=10)
+		thread2.start()
+		thread1.join()
+		thread2.join()
 
 	def tearDown(self):
 		print "Completed EZMQ Test ", self._testMethodName 

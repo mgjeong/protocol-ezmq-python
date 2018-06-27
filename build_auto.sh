@@ -96,6 +96,8 @@ usage() {
 build() {
     if [ "x86" = ${EZMQ_TARGET_ARCH} ]; then
          build_x86; exit 0;
+    elif [ "i686" = ${EZMQ_TARGET_ARCH} ]; then
+         build_x86; exit 0;
     elif [ "x86_64" = ${EZMQ_TARGET_ARCH} ]; then
          build_x86_64; exit 0;
     else
