@@ -1,0 +1,7 @@
+[run]
+plugins = Cython.Coverage
+omit = /usr/local/lib/python2.7/dist-packages/numpy/*.py
+
+[report]
+ignore_errors = True
+

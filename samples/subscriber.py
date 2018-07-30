@@ -1,6 +1,6 @@
 import sys, time, struct, thread
 sys.path.append("..") 
-from build import ezmqpy as ezmq
+from build import ezmqcy as ezmq
 from abc import ABCMeta, abstractmethod
 
 counter=1

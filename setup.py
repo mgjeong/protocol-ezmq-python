@@ -6,6 +6,7 @@ print "\n********************** Build Starting ***************************\n"
 from distutils.core import setup
 from distutils.extension import Extension
 from Cython.Distutils import build_ext
+from Cython.Build import cythonize
 import numpy, sys, os, platform
 
 extlibs = "dependencies/"
@@ -19,6 +20,12 @@ inc_dirs = []
 extra_objs = []
 compile_flags = []
 lib_ext = ".so"
+compiler_directives = {}
+define_macros = []
+
+compiler_directives['linetrace'] = True
+define_macros.append(('CYTHON_TRACE', '1'))
+define_macros.append(('CYTHON_TRACE_NOGIL', '1'))
 
 inc_dirs.append("include/")
 inc_dirs.append(ezmqcpp + "src/")
@@ -65,7 +72,7 @@ else:
 	exit()
 	
 src = "ezmqcy.pyx"
-moduleName = "ezmqpy"
+moduleName = "ezmqcy"
 target = "build." + moduleName
 
 ext_modules = [Extension(target, [src],
@@ -73,12 +80,13 @@ ext_modules = [Extension(target, [src],
 					 language = lib_lang,
                      extra_objects = extra_objs,
 					 extra_compile_args = compile_flags,
+					define_macros=define_macros,
 					 )]
 
 setup(
   name = moduleName,
   cmdclass = {'build_ext': build_ext},
-  ext_modules = ext_modules,
+  ext_modules = cythonize(ext_modules, compiler_directives=compiler_directives),
   include_dirs=[numpy.get_include()]
 )
 	
