@@ -24,8 +24,13 @@ from inc.ezmqByteData cimport EZMQByteData, dynamic_cast, const_cast
 from inc.ezmqAPI cimport EZMQAPI, EZMQAPI_GetInstance 
 from inc.ezmqEvent cimport Event, dynamic_cast_event, const_cast_event 
 from inc.ezmqReading cimport Reading
+import logging as log
+
+if LOG_LEVEL == 'debug':
+	log.basicConfig(level=log.DEBUG)
 
 def __invalidInputException(cause):
+	log.error("Raising valuErrpr exception for " + cause)
 	raise ValueError("ERROR : " + cause)
 
 class pyCallbacks(metaclass=ABCMeta):
@@ -58,39 +63,48 @@ class _Singleton(type):
 class _cythonClass(object):
 	__metaclass__ = _Singleton
 	def setCallbacks(self, callbackObj):
+		log.debug("_cythonClass :: Setting callbacks here")
 		self.callbacks = callbackObj
 	def callSubCB(self, pyEZMQMessage data, **kwargs):
 		if "topic" in kwargs:
+			log.debug("_cythonClass :: Calling callbacks for topic : ", kwargs["topic"])
 			return self.callbacks.subTopicDataCB(kwargs["topic"], data)
 		else:
+			log.debug("_cythonClass :: Calling callbacks for no topic")
 			return self.callbacks.subDataCB(data)
 
 cdef void _cy_subCB(const EZMQMessage &event) with gil:
 	ret = event.getContentType()
 	if ret is 1:
+		log.debug("_cy_subCB :: calling _pyEZMQByteData_factory")
 		data = _pyEZMQByteData_factory(dynamic_cast(&event))
 		_cythonClass().callSubCB(data)
 	elif ret is 0:
+		log.debug("_cy_subCB :: calling _pyEvent_factory")
 		data = _pyEvent_factory(dynamic_cast_event(&event))
 		_cythonClass().callSubCB(data)
-		
+	log.debug("_cy_subCB :: Exiting")
+
 cdef void _cy_subTopicCB(string topicStr, const EZMQMessage &event) with gil:
 	ret = event.getContentType()
 	if ret is 1:
+		log.debug("_cy_subTopicCB:: calling _pyEZMQByteData_factory")
 		data = _pyEZMQByteData_factory(dynamic_cast(&event))
 		_cythonClass().callSubCB(data, topic=topicStr)
 	else:
+		log.debug("_cy_subTopicCB:: calling _pyEvent_factory")
 		data = _pyEvent_factory(dynamic_cast_event(&event))
 		_cythonClass().callSubCB(data, topic=topicStr)
+	log.debug("_cy_subTopicCB :: Exiting")
 
 cdef void _cy_startCB(EZMQErrorCode code):
-	print("I am in Start Callback")
+	log.debug("I am in Start Callback")
 
 cdef void _cy_stopCB(EZMQErrorCode code):
-	print("I am in Stop Callback")
+	log.debug("I am in Stop Callback")
 
 cdef void _cy_errorCB(EZMQErrorCode code):
-	print("I am in ERROR Callback")
+	log.debug("I am in ERROR Callback")
 
 def errorString(value):
 	'''
@@ -145,6 +159,7 @@ cdef class pyEZMQAPI:
 		The constructor invokes the instance of native EZMQAPI
 		and stores it in a pointer to native object.
 		All future API calls are made on this native instance.'''
+		log.debug("pyEZMQAPI :: Calling EZMQAPI_GetInstance")
 		self.ezmqApi = EZMQAPI_GetInstance()
 	
 	def initialize(self):
@@ -152,6 +167,7 @@ cdef class pyEZMQAPI:
 		Initializes all required EZMQ components.
 		This API should be called first, before using any other EZMQ APIs.
 		@return: EZMQErrorCode'''
+		log.debug("pyEZMQAPI :: Initializing")
 		return self.ezmqApi.initialize()
 	
 	def terminate(self):
@@ -159,6 +175,7 @@ cdef class pyEZMQAPI:
 		Terminates all initialized EZMQ components.
 		This API should be called to clean up at the end of EZMQ stack use.
 		@return: EZMQErrorCode'''
+		log.debug("pyEZMQAPI :: Terminating")
 		return self.ezmqApi.terminate()
 	
 	def getStatus(self):
@@ -166,6 +183,7 @@ cdef class pyEZMQAPI:
 		Get the current status of EZMQ Service.
 		This API can be used to check the status of the EZMQ stack.
 		@return: EZMQStatusCode'''
+		log.debug("pyEZMQAPI :: getStatus called")
 		return self.ezmqApi.getStatus()
 
 cdef class pyEZMQMessage:
@@ -175,11 +193,13 @@ cdef class pyEZMQMessage:
 	when receiving callbacks, it is typecasted into bytedata/protobuf data.'''
 	cdef  EZMQMessage* msg
 	def __cinit__(self):
+		log.debug("pyEZMQMessage :: Empty constructor called")
 		pass
 	def getContentType(self):
 		'''
 		Get the content-type of EZMQMessage instance.
 		@return: integer for EZMQ content type'''
+		log.debug("pyEZMQMessage :: Get content type called")
 		return self.msg.getContentType()
 	def setContentType(self, types):
 		'''
@@ -188,6 +208,7 @@ cdef class pyEZMQMessage:
 		and Event will set as EZMQ_CONTENT_TYPE_PROTOBUF by default.
 		@param types: content-type to be set
 		@return: Integer for EZMQ Error Code'''
+		log.debug("pyEZMQMessage :: Set content type called")
 		return self.msg.setContentType(types)
 
 cdef class pyEZMQByteData(pyEZMQMessage):
@@ -208,6 +229,7 @@ cdef class pyEZMQByteData(pyEZMQMessage):
 		This creates an empty pyEZMQByteData object, with no reference to native.
 		A reference must be set by calling init API for new and using factory
 		APIs to set reference to existing native object.'''
+		log.debug("pyEZMQByteData :: Default constructor called")
 		self.bd = self.msg = NULL
 		self.deleteFlag = 0
 	def init(self, data, dataLength):
@@ -217,6 +239,7 @@ cdef class pyEZMQByteData(pyEZMQMessage):
 		It also sets the delete flag used by python garbage collector to free it.
 		@param data: Byte Data
 		@param dataLength : Data length'''
+		log.debug("pyEZMQByteData :: Initializing ByteData")
 		self.bd = self.msg = new EZMQByteData(data, dataLength)
 		self.deleteFlag = 1
 	def __dealloc__(self):
@@ -226,16 +249,19 @@ cdef class pyEZMQByteData(pyEZMQMessage):
 		This needs not to be called explicitly.
 		It is automatically invoked when it goes out of scope.'''
 		if self.bd is not NULL and self.deleteFlag is 1:
+			log.debug("pyEZMQByteData :: Deleting native object")
 			del self.bd
 	def getLength(self):
 		'''
 		Get length of data.
 		@return: Length of data.'''
+		log.debug("pyEZMQByteData :: get length called")
 		return self.bd.getLength()
 	def getByteData(self):
 		'''
 		Get Byte data object holds.
 		@return: byte data'''
+		log.debug("pyEZMQByteData :: get byte data called")
 		return self.bd.getByteData()
 	def setByteData(self, data, dataLength):
 		'''
@@ -244,13 +270,16 @@ cdef class pyEZMQByteData(pyEZMQMessage):
 		@param data: Byte Data
 		@param dataLength: Data Length.
 		@return: EZMQErrorCode.''' 
+		log.debug("pyEZMQByteData :: set byte data called")
 		return self.bd.setByteData(data, dataLength)
 
 cdef object _pyEZMQByteData_factory(const EZMQByteData *ptr):
 	''' Factory function for pyEZMQByteData class to store reference of existing
 	native object in python object'''
+	log.debug("_pyEZMQByteData_factory :: factory method invoked")
 	cdef  pyEZMQByteData py_obj = pyEZMQByteData()
 	py_obj.bd = py_obj.msg = const_cast(ptr)
+	log.debug("_pyEZMQByteData_factory :: factory method exiting")
 	return py_obj
 
 cdef class pyEZMQPublisher:
@@ -271,9 +300,11 @@ cdef class pyEZMQPublisher:
                 @param _cy_startCB: start callback
                 @param _cy_stopCB: start callback
                 @param _cy_errorCB: start callback'''
+		log.debug("pyEZMQPublisher :: constructor called with port")
 		self.pub = new EZMQPublisher(port, _cy_startCB, _cy_stopCB, _cy_errorCB)
 	def __dealloc__(self):
 		if self.pub is not NULL:
+			log.debug("pyEZMQPublisher :: deleting native object here")
 			del self.pub
 	def publish(self, pyEZMQMessage event, **kwargs):
 		'''
@@ -293,23 +324,28 @@ cdef class pyEZMQPublisher:
 				and special characters _ - . and /
                 @return: Integer for EZMQ error code.'''
 		if "topic" in kwargs:
+			log.debug("pyEZMQPublisher :: publish with topic called here")
 			return self.pub.publish(kwargs["topic"], deref(event.msg))
 		else:
+			log.debug("pyEZMQPublisher :: publish without topic called here")
 			return self.pub.publish(deref(event.msg))
 	def start(self):
 		'''
 		Start publisher instance.
 		@return: Integer for stack error codes'''
+		log.debug("pyEZMQPublisher :: publish start called")
 		return self.pub.start()
 	def stop(self):
 		'''
 		Stop publisher instance.
 		@return: Integer for stack error codes.'''
+		log.debug("pyEZMQPublisher :: publish stop called")
 		return self.pub.stop()
 	def getPort(self):
 		'''
 		Get the port of the publisher.
 		@return: Integer port number'''
+		log.debug("pyEZMQPublisher :: publish get port called")
 		return self.pub.getPort()
 
 cdef class pyEZMQSubscriber:
@@ -331,16 +367,20 @@ cdef class pyEZMQSubscriber:
                 @param ip: IP to be used for subscriber socket.
                 @param port: Port to be used for subscriber socket.
                 @param _cy_subCB: subscriber callback to receive events
-                @param _cy_subTopicCB: subscriber callback to receive events for a particular topi'''		
+                @param _cy_subTopicCB: subscriber callback to receive events for a particular topi'''
+		log.debug("pyEZMQSubscriber :: constructor called here")		
 		_cythonClass().setCallbacks(subCB)
+		log.debug("pyEZMQSubscriber :: callback objects have been set")
 		self.sub = new EZMQSubscriber(ip, port, _cy_subCB, _cy_subTopicCB)
 	def __dealloc__(self):
-		if self.sub is not NULL:	
+		if self.sub is not NULL:
+			log.debug("pyEZMQSubscriber :: Deleting native object here")	
 			del self.sub
 	def start(self):
 		'''
 		Start the subscriber instance.
 		@return: EZMQErrorCodes'''
+		log.debug("pyEZMQSubscriber :: subscription start called here")
 		return self.sub.start()
 	def subscribe(self, **kwargs):
 		'''
@@ -361,17 +401,23 @@ cdef class pyEZMQSubscriber:
 					// Subscribe with topic string
 				subscriber.subscribe(topic=topicList)
 					// Subscribe with topic List'''
+		log.debug("pyEZMQSubscriber :: Subscribe called.")
 		if "ip" in kwargs:
 			if  "port" in kwargs:
+				log.debug("pyEZMQSubscriber :: Subscribing with ip, port and topic", 
+					kwargs["ip"], kwargs["port"], kwargs["topic"])
 				return self.sub.subscribe(kwargs["ip"], kwargs["port"], kwargs["topic"])
 		elif "topic" in kwargs:
 			if isinstance(kwargs["topic"], list) :
+				log.debug("pyEZMQSubscriber :: Subscribing with topic list")
 				return self.sub.subscribe(<clist[string]>kwargs["topic"])
 			elif isinstance(kwargs["topic"], str):
+				log.debug("pyEZMQSubscriber :: Subscribing with topic string : ", <string>kwargs["topic"])
 				return self.sub.subscribe(<string>kwargs["topic"])
 			else:
 				__invalidInputException("INVALID topic type")
 		else:
+			log.debug("pyEZMQSubscriber :: Subscribing without topic")
 			return self.sub.subscribe()
 	def unSubscribe(self, **kwargs):
 		'''
@@ -390,30 +436,37 @@ cdef class pyEZMQSubscriber:
                                         // Unsubscribe with topic string
                                 subscriber.unSubscribe(topic=topicList)
                                         // Unsubscribe with topic List'''
+		log.debug("pyEZMQSubscriber :: unSubscribe called here")
 		if "topic" in kwargs:
 			if isinstance(kwargs["topic"], list) :
+				log.debug("pyEZMQSubscriber :: unSubscribing with topic list")
 				return self.sub.unSubscribe(<clist[string]>kwargs["topic"])
 			elif isinstance(kwargs["topic"], str):
+				log.debug("pyEZMQSubscriber :: unSubscribing with topic string", <string>kwargs["topic"])
 				return self.sub.unSubscribe(<string>kwargs["topic"])
 			else:
 				__invalidInputException("INVALID topic type")
 		else:
+			log.debug("pyEZMQSubscriber :: unSubscribing without topic")
 			return self.sub.unSubscribe()
 	def stop(self):
 		'''
                 Stop the subscriber instance.
                 @return: EZMQErrorCodes'''
+		log.debug("pyEZMQSubscriber :: subscription stop called")
 		return self.sub.stop()
 	def getPort(self):
 		'''
 		Get port of subscriber.
 		@return: Integer of port.'''
+		log.debug("pyEZMQSubscriber :: subscribe get port called")
 		return self.sub.getPort()
 	def getIp(self):
 		'''
 		Get IP address
 		@return: IP address as string.
 		'''
+		log.debug("pyEZMQSubscriber :: subscribe get ip called")
 		return self.sub.getIp()
 
 cdef class pyReading:
@@ -422,94 +475,111 @@ cdef class pyReading:
         It contains a pointer to native Reading instance.'''
 	cdef Reading* reading
 	def __cinit__(self):
+		log.debug("pyReading:: empty constructor called")
 		pass
 	def id(self):
 		'''
 		Get id field of reading instance.
 		@return: ID as string'''
+		log.debug("pyReading:: get id called")
 		return self.reading.id()
 	def name(self):
 		'''
                 Get name(key-value) field of reading instance.
                 @return: name as string'''
+		log.debug("pyReading:: get name called")
 		return self.reading.name()
 	def value(self):
 		'''
                 Get value(key-value) field of reading instance.
                 @return: value as string'''
+		log.debug("pyReading:: get value called")
 		return self.reading.value()
 	def device(self):
 		'''
                 Get device field of reading instance.
                 @return: device as string'''
+		log.debug("pyReading:: get device called")
 		return self.reading.device()
 	def created(self):
 		'''
                 Get created field of reading instance.
                 @return: created as Integer'''
+		log.debug("pyReading:: get created called")
 		return self.reading.created()
 	def modified(self):
 		'''
                 Get modified field of reading instance.
                 @return: modified as Integer'''
+		log.debug("pyReading:: get modified called")
 		return self.reading.modified()
 	def origin(self):
 		'''
                 Get origin field of reading instance.
                 @return: origin as Integer'''
+		log.debug("pyReading:: get origin called")
 		return self.reading.origin()
 	def pushed(self):
 		'''
                 Get pushed field of reading instance.
                 @return: pushed as Integer'''
+		log.debug("pyReading:: get pushed called")
 		return self.reading.pushed()
 	def set_id(self, value):
 		'''
                 Set ID field of reading instance.
                 @param value: value of ID
 		@type value: const char*'''
+		log.debug("pyReading:: set id called")
 		self.reading.set_id(value)
 	def set_created(self, value):
 		'''
                 Set created field of reading instance.
                 @param value: value of created
                 @type value: Integer'''
+		log.debug("pyReading:: set created called")
 		self.reading.set_created(value)
 	def set_modified(self, value):
 		'''
                 Set modified field of reading instance.
                 @param value: value of modified
                 @type value: Integer'''
+		log.debug("pyReading:: set modified called")
 		self.reading.set_modified(value)
 	def set_origin(self, value):
 		'''
                 Set origin field of reading instance.
                 @param value: value of origin
                 @type value: Integer'''
+		log.debug("pyReading:: set origin called")
 		self.reading.set_origin(value)
 	def set_pushed(self, value):
 		'''
                 Set pushed field of reading instance.
                 @param value: value of pushed
                 @type value: Integer'''
+		log.debug("pyReading:: set pushed called")
 		self.reading.set_pushed(value)
 	def set_device(self, value):
 		'''
                 Set device field of reading instance.
                 @param value: value of device.
                 @type value: const char*'''
+		log.debug("pyReading:: set device called")
 		self.reading.set_device(value)
 	def set_name(self, value):
 		'''
                 Set name of reading instance.
                 @param value: value of name(key-value).
                 @type value: const char*'''
+		log.debug("pyReading:: set name called")
 		self.reading.set_name(value)
 	def set_value(self, value):
 		'''
                 Set ID field of reading instance.
                 @param value: value of value(key-value).
                 @type value: const char*'''
+		log.debug("pyReading:: set value called")
 		self.reading.set_value(value)
 
 cdef class pyEvent(pyEZMQMessage):
@@ -533,6 +603,7 @@ cdef class pyEvent(pyEZMQMessage):
 		'''This creates an empty pyEvent object, with no reference to native.
                 A reference must be set by calling init API for new or by using factory
                 APIs to set the reference to existing native object.'''
+		log.debug("pyEvent:: constructor called")
 		self.event = self.msg = NULL
 		self.deleteFlag = 0
 		pass
@@ -540,6 +611,7 @@ cdef class pyEvent(pyEZMQMessage):
 		'''This creates a new Event instance in python and stores it
 		 in a pointer to a native object. It also sets the delete flag, 
 		used by python garbage collector to free it.'''
+		log.debug("pyEvent:: initialize event native object called")
 		self.event = self.msg = new Event()
 		self.deleteFlag = 1
 	def __dealloc__(self):
@@ -548,41 +620,49 @@ cdef class pyEvent(pyEZMQMessage):
                 This need not to be called explicitly.
                 It is automatically invoked when object goes out of scope.'''
 		if self.event is not NULL and self.deleteFlag is 1:
+			log.debug("pyEvent:: delete native object called")
 			del self.event
 	def id(self):
 		'''
 		Get ID field of the event
 		@return: id as string'''
+		log.debug("pyEvent:: get id called")
 		return self.event.id()
 	def created(self):
 		'''
                 Get created field of the event
                 @return: created as Integer'''
+		log.debug("pyEvent:: get created called")
 		return self.event.created()
 	def modified(self):
 		'''
                 Get modified field of the event
                 @return: modified as Integer'''
+		log.debug("pyEvent:: get modified called")
 		return self.event.modified()
 	def origin(self):
 		'''
                 Get origin field of the event
                 @return: origin as Integer'''
+		log.debug("pyEvent:: get origin called")
 		return self.event.origin()
 	def pushed(self):
 		'''
                 Get pushed field of the event
                 @return: pushed as Integer'''
+		log.debug("pyEvent:: get pushed called")
 		return self.event.pushed()
 	def device(self):
 		'''
                 Get device field of the event
                 @return: device as string'''
+		log.debug("pyEvent:: get device called")
 		return self.event.device()
 	def reading_size(self):
 		'''
                 Get reading count of the event
                 @return: reading count as Integer'''
+		log.debug("pyEvent:: get reading size called")
 		return self.event.reading_size()
 	def reading(self, index):
 		pass
@@ -591,57 +671,69 @@ cdef class pyEvent(pyEZMQMessage):
                 Get reading for a given index of the event
 		@param index: index for which reading is required
                 @return: instance of pyReading containing pointer to Reading instance'''
+		log.debug("pyEvent:: mutable reading called")
 		read = pyReading()
 		read.reading = self.event.mutable_reading(index)
+		log.debug("pyEvent:: returning pyReading object here")
 		return read
 	def add_reading(self):
 		'''
 		Initialize pyReading instance for pyEvent and stores their native pointers.
 		All Reading APIs are to be called on this instance.
                 @return: instance of pyReading containing pointer to new Reading instance'''
+		log.debug("pyEvent:: add reading called")
 		read = pyReading()
 		read.reading = self.event.add_reading()
+		log.debug("pyEvent:: returning pyReading object here")
 		return read
 	def set_id(self, value):
 		'''
 		Set ID field of the event.
 		@param value: value of ID
 		@type value: Integer'''
+		log.debug("pyEvent:: set id called")
 		self.event.set_id(value)
 	def set_created(self, value):
 		'''
                 Set created field of the event.
                 @param value: value of created
                 @type value: Integer'''
+		log.debug("pyEvent:: set created called")
 		self.event.set_created(value)
 	def set_modified(self, value):
 		'''
                 Set modified field of the event.
                 @param value: value of modified
                 @type value: Integer'''
+		log.debug("pyEvent:: set modified called")
 		self.event.set_modified(value)
 	def set_origin(self, value):
 		'''
                 Set origin field of the event.
                 @param value: value of origin
                 @type value: Integer'''
+		log.debug("pyEvent:: set origin called")
 		self.event.set_origin(value)
 	def set_pushed(self, value):
 		'''
                 Set pushed field of the event.
                 @param value: value of pushed
                 @type value: Integer'''
+		log.debug("pyEvent:: set pushed called")
 		self.event.set_pushed(value)
 	def set_device(self, value):
 		'''
                 Set device field of the event.
                 @param value: value of device
                 @type value: const char*'''
+		log.debug("pyEvent:: set device called")
 		self.event.set_device(value)
 
 cdef object _pyEvent_factory(const Event *ptr):
 	'''Factory method for pyEvent class to store an existing native reference
 	into the python object.'''
+	log.debug("_pyEvent_factory:: factory method of Event class called here")
 	cdef pyEvent py_obj = pyEvent()
 	py_obj.event = py_obj.msg = const_cast_event(ptr)
+	log.debug("_pyEvent_factory:: factory method of Event exiting")
 	return py_obj
