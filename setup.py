@@ -9,6 +9,8 @@ from Cython.Distutils import build_ext
 from Cython.Build import cythonize
 import numpy, sys, os, platform
 
+DEBUG=False
+
 extlibs = "dependencies/"
 ezmq = "protocol-ezmq-cpp/"
 ezmqcpp = extlibs + ezmq
@@ -22,10 +24,20 @@ compile_flags = []
 lib_ext = ".so"
 compiler_directives = {}
 define_macros = []
+log_level='warn'
 
-compiler_directives['linetrace'] = True
-define_macros.append(('CYTHON_TRACE', '1'))
-define_macros.append(('CYTHON_TRACE_NOGIL', '1'))
+if '--debug' in sys.argv:
+	DEBUG=True
+
+if DEBUG:
+	print "Building in DEBUG mode."
+	log_level='debug'
+	compiler_directives['linetrace'] = True
+	define_macros.append(('CYTHON_TRACE', '1'))
+	define_macros.append(('CYTHON_TRACE_NOGIL', '1'))
+	extra_objs.append("-fprofile-arcs")
+	compile_flags.append("-fprofile-arcs")
+	compile_flags.append("-ftest-coverage")
 
 inc_dirs.append("include/")
 inc_dirs.append(ezmqcpp + "src/")
@@ -40,11 +52,17 @@ if target_os == "linux2":
 	target_arch = platform.machine()
 
 	if target_arch in ['i686', 'x86']:
-		extra_objs.append(ezmqcpp + "out/linux/x86/release/libezmq.a")
+		if DEBUG:
+			extra_objs.append(ezmqcpp + "out/linux/x86/debug/libezmq.a")
+		else:
+			extra_objs.append(ezmqcpp + "out/linux/x86/release/libezmq.a")
 		extra_objs.append("/usr/local/lib/libzmq.a")
 		extra_objs.append(protobuf + "src/.libs/libprotobuf.a")
 	elif target_arch in ['x86_64']:
-		extra_objs.append(ezmqcpp + "out/linux/x86_64/release/libezmq.a")
+		if DEBUG:
+			extra_objs.append(ezmqcpp + "out/linux/x86_64/debug/libezmq.a")
+		else:
+			extra_objs.append(ezmqcpp + "out/linux/x86_64/release/libezmq.a")
 		extra_objs.append("/usr/local/lib/libzmq.so")
 		extra_objs.append(protobuf + "src/.libs/libprotobuf.so")
 	
@@ -86,7 +104,8 @@ ext_modules = [Extension(target, [src],
 setup(
   name = moduleName,
   cmdclass = {'build_ext': build_ext},
-  ext_modules = cythonize(ext_modules, compiler_directives=compiler_directives),
+  ext_modules = cythonize(ext_modules, compiler_directives=compiler_directives,
+		compile_time_env={'LOG_LEVEL':log_level}),
   include_dirs=[numpy.get_include()]
 )
 	

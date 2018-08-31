@@ -43,7 +43,7 @@ install_dependencies(){
     fi
 
     cd ${EZMQ_ROOT}
-    ./build_auto.sh --with_dependencies=${EZMQ_WITH_DEP} --target_arch=${EZMQ_TARGET_ARCH}
+    ./build_auto.sh --with_dependencies=${EZMQ_WITH_DEP} --target_arch=${EZMQ_TARGET_ARCH} --build_mode=${EZMQ_BUILD_MODE}
     cd ${PROJECT_ROOT}
 
 }
@@ -57,7 +57,11 @@ build_x86() {
     fi
 
     #build cython using setup file.
-    python setup.py build_ext --inplace
+    if [ ${EZMQ_BUILD_MODE} == "debug" ]; then
+	python setup.py build_ext --inplace --debug
+    else
+	python setup.py build_ext --inplace
+    fi
 }
 
 build_x86_64() {
@@ -68,7 +72,11 @@ build_x86_64() {
     fi
 
     #build cython using setup file.
-    python setup.py build_ext --inplace
+    if [ ${EZMQ_BUILD_MODE} == "debug" ]; then
+        python setup.py build_ext --inplace --debug
+    else
+        python setup.py build_ext --inplace
+    fi
 }
 
 usage() {
