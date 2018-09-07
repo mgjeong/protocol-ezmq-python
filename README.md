@@ -38,6 +38,8 @@ To Build "protocol-ezmq-python" For windows (Step-by-step process) :
 4. SET DISTUTILS_USE_SDK=1
 5. SET MSSdk=1
 6. python setup.py build_ext --inplace
+   or
+   python setup.py build_ext --inplace -Dsecured
 	(This will generate the "ezmqpy.pyd" under ~/protocol-ezmq-python/build directory
 		on successfull build).
 	(NOTE : Please build "protocol-ezmq-cpp" and its dependencies under 'dependencies' folder.)

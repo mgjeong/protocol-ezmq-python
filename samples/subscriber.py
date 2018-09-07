@@ -4,6 +4,9 @@ from build import ezmqcy as ezmq
 from abc import ABCMeta, abstractmethod
 
 counter=1
+gServerPublicKey = "tXJx&1^QE2g7WCXbF.$$TVP.wCtxwNhR8?iLi&S<"
+gClientPublicKey = "-QW?Ved(f:<::3d5tJ$[4Er&]6#9yr=vha/caBc("
+gClientSecretKey = "ZB1@RS6Kv^zucova$kH(!o>tZCQ.<!Q)6-0aWFmW"
 
 def printData(eventMessage, **kwargs):
 	print "CALLBACK COUNTER :: ", globals()["counter"]
@@ -37,10 +40,20 @@ class callback(ezmq.pyCallbacks):
 	def subDataCB(self, eventMessage):
 		printData(eventMessage)
 
+def printError():
+	print "Re-Run subscriber samples with option as follows:\n"
+	print "\t1. Subscribing without topic :\n\t python subscriber.py ip=localhost port=5562\n"
+	print "\t2. Subscribing without topic [SECURED] :\n\t python subscriber.py ip=localhost port=5562 secured=1\n"
+	print "\t3. Subscribing with topic :\n\t python subscriber.py ip=localhost port=5562 topic=topicName\n"
+	print "\t4. Subscribing with topic [SECURED] :\n\t python subscriber.py ip=localhost port=5562 topic=topicName secured=1\n"
+	exit()
 def getArgs():
+	if len(sys.argv) == 1:
+		printError()
 	ip = ""
 	port = 0
 	topic = ""
+	secured = 0
 	for elem in sys.argv:
 		argName = elem.split("=")[0].lower()
 		if(argName == "ip"):
@@ -49,11 +62,14 @@ def getArgs():
 			port=elem.split("=")[1]
 		elif(argName == "topic"):
 			topic=elem.split("=")[1]
-	return ip, port, topic
+		elif(argName == "secured"):
+			if elem.split("=")[1] is "1":
+				secured = 1
+	return ip, port, topic, secured
 
 print "Running subscriber sample.\n"
 # Getting args
-ip, port, topicStr = getArgs()
+ip, port, topicStr, secured = getArgs()
 print "-----------------------------------------------------------"
 if(ip is ""):
 	ip = "localhost"
@@ -77,6 +93,8 @@ else:
 	else:
 		topicSub = topicStr
 	print "USING TOPIC :: ", topicStr
+if secured == 1:
+	print "SECURITY ENABLED FOR SAMPLE."
 print "-----------------------------------------------------------"
 
 print "\nCreating ezmq API object"
@@ -98,6 +116,15 @@ if subscriber is None:
 print "Python ezmqSubscriber object created successfully"
 print "\nSUBCRIPTION IP   :", subscriber.getIp()
 print "SUBCRIPTION PORT : ", subscriber.getPort()
+if secured == 1:
+	print "Setting Server and Client Keys"
+	try:
+		subscriber.setServerPublicKey(gServerPublicKey)
+		subscriber.setClientKeys(gClientSecretKey, gClientPublicKey)
+	except Exception as e:
+		print "Exception caught for Settings server And client keys\n", e
+		exit()
+	print "Successfully set server and client keys."
 
 print "Starting Subscription"
 ret = subscriber.start()

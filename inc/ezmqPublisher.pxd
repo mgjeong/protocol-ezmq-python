@@ -10,6 +10,7 @@ ctypedef void (*EZMQErrorCB)(EZMQErrorCode code)
 cdef extern from "EZMQPublisher.h" namespace "ezmq" :
         cdef cppclass EZMQPublisher:
                 EZMQPublisher(int port, EZMQStartCB startCB, EZMQStopCB stopCB, EZMQErrorCB errorCB)
+                EZMQErrorCode setServerPrivateKey(const string key)
                 EZMQErrorCode start()
                 EZMQErrorCode publish(EZMQMessage &event)
                 EZMQErrorCode publish(string topic, EZMQMessage &event)

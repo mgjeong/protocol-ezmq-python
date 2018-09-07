@@ -10,6 +10,7 @@ from Cython.Build import cythonize
 import numpy, sys, os, platform
 
 DEBUG=False
+SECURE=False
 
 extlibs = "dependencies/"
 ezmq = "protocol-ezmq-cpp/"
@@ -28,6 +29,8 @@ log_level='warn'
 
 if '--debug' in sys.argv:
 	DEBUG=True
+if '-Dsecured' in sys.argv:
+	SECURE=True
 
 if DEBUG:
 	print "Building in DEBUG mode."
@@ -35,9 +38,6 @@ if DEBUG:
 	compiler_directives['linetrace'] = True
 	define_macros.append(('CYTHON_TRACE', '1'))
 	define_macros.append(('CYTHON_TRACE_NOGIL', '1'))
-	extra_objs.append("-fprofile-arcs")
-	compile_flags.append("-fprofile-arcs")
-	compile_flags.append("-ftest-coverage")
 
 inc_dirs.append("include/")
 inc_dirs.append(ezmqcpp + "src/")
@@ -50,6 +50,9 @@ inc_dirs.append(protobuf + "src")
 if target_os == "linux2":
 	
 	target_arch = platform.machine()
+	extra_objs.append("-fprofile-arcs")
+	compile_flags.append("-fprofile-arcs")
+	compile_flags.append("-ftest-coverage")
 
 	if target_arch in ['i686', 'x86']:
 		if DEBUG:
@@ -58,6 +61,8 @@ if target_os == "linux2":
 			extra_objs.append(ezmqcpp + "out/linux/x86/release/libezmq.a")
 		extra_objs.append("/usr/local/lib/libzmq.a")
 		extra_objs.append(protobuf + "src/.libs/libprotobuf.a")
+		if SECURE:
+			extra_objs.append("/usr/lib/i386-linux-gnu/libsodium.a")
 	elif target_arch in ['x86_64']:
 		if DEBUG:
 			extra_objs.append(ezmqcpp + "out/linux/x86_64/debug/libezmq.a")
@@ -105,7 +110,7 @@ setup(
   name = moduleName,
   cmdclass = {'build_ext': build_ext},
   ext_modules = cythonize(ext_modules, compiler_directives=compiler_directives,
-		compile_time_env={'LOG_LEVEL':log_level}),
+		compile_time_env={'LOG_LEVEL':log_level, 'SECURED':SECURE}),
   include_dirs=[numpy.get_include()]
 )
 	

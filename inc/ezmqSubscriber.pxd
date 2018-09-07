@@ -10,6 +10,8 @@ ctypedef void (*EZMQSubTopicCB)(string topic, EZMQMessage &event)
 cdef extern from "EZMQSubscriber.h" namespace "ezmq" :
 	cdef cppclass EZMQSubscriber:
 		EZMQSubscriber(string ip, int port, EZMQSubCB subCB, EZMQSubTopicCB subTopicCB)
+		EZMQErrorCode setClientKeys(const string clientPrivateKey, const string clientPublicKey)
+		EZMQErrorCode setServerPublicKey(const string key)
 		EZMQErrorCode start()
 		EZMQErrorCode subscribe()
 		EZMQErrorCode subscribe(string topic)
