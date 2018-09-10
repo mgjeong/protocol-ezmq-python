@@ -88,6 +88,7 @@ def subscribe(**kwargs):
 	secure = 0
 	if "secure" in kwargs:
 		secure = kwargs["secure"]
+
 	apiObj = ezmq.pyEZMQAPI()
 	apiObj.initialize()
 	cb = callback()
@@ -542,6 +543,7 @@ class EZMQTests(unittest.TestCase):
 		thread1.start()
 		subscribe(port=5563, topic="/apple", counter=5, secure=1)
 		thread1.join()
+
 	def tearDown(self):
 		print "Completed EZMQ Test ", self._testMethodName 
 
