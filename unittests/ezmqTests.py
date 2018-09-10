@@ -5,11 +5,32 @@ from build import ezmqcy as ezmq
 
 class callback(ezmq.pyCallbacks):
 	def subTopicDataCB(self, topicStr, eventMessage):
-		print "subTopicDataCB received"
+		print "SUBSCRIPTION CALLBACK RECEIVED FOR TOPIC :: ", topicStr
+		validateCallback(eventMessage)
 	def subDataCB(self, eventMessage):
-		print "subDataCB received"
+		print "SUBSCRIPTION CALLBACK RECEIVED FOR ALL TOPICS"
+		validateCallback(eventMessage)
+
+def validateCallback(eventMessage, **kwargs):
+	assert eventMessage.getContentType() == 1, "Content is not type BYTE DATA"
+	data = bytearray(eventMessage.getByteData())
+	dataLength = eventMessage.getLength()
+	print "RECEIVED DATA : ", list(data[0:dataLength])
+	print "============================================================================\n"
+	event = getByteArray()
+	assert len(event) == dataLength, "ERROR: BYTE DATA LENGTH NOT MATCHING"
+	data1 = bytearray(event)
+	list1 = list(data1[0:len(event)])  
+	list2 = list(data[0:dataLength])
+	assert  list1 == list2, "ERROR : BYTE DATA IS NOT MATCHING"
+
+def getByteArray():
+	event = bytearray([94, 91, 101, 125, 111, 35, 120, 101, 115, 101, 200, 255, 250, 13,])
+	return event
 
 def publish(**kwargs):
+
+	print "PUBLISH CALLED"
 	port = 5562
 	if "port" in kwargs:
 		port = kwargs["port"]
@@ -33,29 +54,29 @@ def publish(**kwargs):
 	publisher.start()
 
 	while counter != 0 :
-		event = bytearray([94, 91, 101, 125, 111, 35, 120, 101, 115, 101, 200, 255, 250, 13,])
+		event = getByteArray()
 		length = len(event)
 		data = ezmq.pyEZMQByteData()
 		data.init(event, len(event))
 		d = bytearray(data.getByteData())
 		dl = data.getLength()
-		print "  DATA : ", list(d[0:dl])
-		print "  DATA LENGTH : ", dl
+		print " DATA : ", list(d[0:dl])
+		print " DATA LENGTH : ", dl
 		if topicName == "":
 			ret = publisher.publish(data)
 		else:
-			print "TOPIC ", topicName
+			print " TOPIC ", topicName
 			ret = publisher.publish(data, topic=topicName)
 
-		print counter, 'EVENT PUBLISH RESULT :: ', ezmq.errorString(ret)
+		print ' EVENT PUBLISH RESULT :: ', ezmq.errorString(ret)
 		counter -= 1
 		time.sleep(1)
+
 	publisher.stop()
 	apiObj.terminate()
 
 def subscribe(**kwargs):
 	ip = "localhost"
-
 	port = 5562
 	if "port" in kwargs:
 		port = kwargs["port"]
@@ -63,10 +84,6 @@ def subscribe(**kwargs):
 	topicName = ""
 	if "topic" in kwargs:
 		topicName = kwargs["topic"]
-
-	counter = 0
-	if "counter" in kwargs:
-		counter = kwargs["counter"]
 
 	secure = 0
 	if "secure" in kwargs:
@@ -84,18 +101,7 @@ def subscribe(**kwargs):
 		subscriber.subscribe()
 	else:
 		subscriber.subscribe(topic=topicName)
-	while counter != 0 :
-		time.sleep(1)
-		counter -= 1
-
-	if topicName == "":
-		subscriber.unSubscribe()
-	else:
-		subscriber.unSubscribe(topic=topicName)
-
-	subscriber.stop()
-	apiObj.terminate()
-
+	return apiObj, subscriber
 
 class EZMQTests(unittest.TestCase):
 
@@ -521,16 +527,21 @@ class EZMQTests(unittest.TestCase):
 		del subscriber, subscriber_cb, apiObj
 
 	def test_pyPublishAndSubscribe_NoTopic(self):
-		thread1 = threading.Thread(target=publish, kwargs={'port': 5563, 'topic': "/apple", 'counter': 3})
-		thread1.start()
-		subscribe(port=5563, topic="/apple", counter=5)
-		thread1.join()
+		p = 5563
+		t = "/sampleTopic"
+
+		apiObject, subscriber = subscribe(port=p, topic=t)	
+		publish(port=p, topic=t, counter=5)
+
+		subscriber.unSubscribe(topic=t)
+		subscriber.stop()
+		apiObject.terminate()
+		
 	def test_pyPublishAndSubscribe_NoTopic_secure(self):
 		thread1 = threading.Thread(target=publish, kwargs={'port': 5563, 'topic': "/apple", 'counter': 3, 'secure' : 1})
 		thread1.start()
 		subscribe(port=5563, topic="/apple", counter=5, secure=1)
 		thread1.join()
-
 	def tearDown(self):
 		print "Completed EZMQ Test ", self._testMethodName 
 
