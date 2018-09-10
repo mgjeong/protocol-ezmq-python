@@ -76,6 +76,9 @@ if target_os == "linux2":
 elif target_os == "win32":
 
 	inc_dirs.append(ezmqcpp + "dependencies/libzmq/include")
+
+	if SECURE:
+		extra_objs.append(ezmqcpp + "dependencies/libsodium/bin/x64/Release/v140/static/libsodium.lib")
 	
 	extra_objs.append(ezmqcpp + "out/windows/win32/amd64/release/ezmq.lib")
 	extra_objs.append(protobuf + "cmake/build/solution/Release/libprotobuf.lib")
