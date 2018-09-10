@@ -22,9 +22,14 @@ def publish(**kwargs):
 	if "counter" in kwargs:
 		counter = kwargs["counter"]
 
+	secure = 1
+	if "secure" in kwargs:
+		secure = kwargs["secure"]
 	apiObj = ezmq.pyEZMQAPI()
 	apiObj.initialize()
 	publisher = ezmq.pyEZMQPublisher(int(port))
+	if secure == 1:
+		publisher.setServerPrivateKey("[:X%Q3UfY+kv2A^.wv:(qy2E=bk0L][cm=mS3Hcx")
 	publisher.start()
 
 	while counter != 0 :
@@ -63,10 +68,17 @@ def subscribe(**kwargs):
 	if "counter" in kwargs:
 		counter = kwargs["counter"]
 
+	secure = 0
+	if "secure" in kwargs:
+		secure = kwargs["secure"]
 	apiObj = ezmq.pyEZMQAPI()
 	apiObj.initialize()
 	cb = callback()
 	subscriber = ezmq.pyEZMQSubscriber(ip, int(port), cb)
+	if secure == 1:
+		subscriber.setServerPublicKey("tXJx&1^QE2g7WCXbF.$$TVP.wCtxwNhR8?iLi&S<")
+		subscriber.setClientKeys("ZB1@RS6Kv^zucova$kH(!o>tZCQ.<!Q)6-0aWFmW", 
+			"-QW?Ved(f:<::3d5tJ$[4Er&]6#9yr=vha/caBc(")
 	subscriber.start()
 	if topicName == "":
 		subscriber.subscribe()
@@ -509,13 +521,15 @@ class EZMQTests(unittest.TestCase):
 		del subscriber, subscriber_cb, apiObj
 
 	def test_pyPublishAndSubscribe_NoTopic(self):
-		thread1 = threading.Thread(target=publish, kwargs={'port': 5563, 'topic': "/apple", 'counter': 5})
-		thread2 = threading.Thread(target=subscribe, kwargs={'port': 5563, 'topic': "/apple", 'counter': 5})
+		thread1 = threading.Thread(target=publish, kwargs={'port': 5563, 'topic': "/apple", 'counter': 3})
 		thread1.start()
-		subscribe(port=5563, topic="/apple", counter=10)
-		thread2.start()
+		subscribe(port=5563, topic="/apple", counter=5)
 		thread1.join()
-		thread2.join()
+	def test_pyPublishAndSubscribe_NoTopic_secure(self):
+		thread1 = threading.Thread(target=publish, kwargs={'port': 5563, 'topic': "/apple", 'counter': 3, 'secure' : 1})
+		thread1.start()
+		subscribe(port=5563, topic="/apple", counter=5, secure=1)
+		thread1.join()
 
 	def tearDown(self):
 		print "Completed EZMQ Test ", self._testMethodName 
