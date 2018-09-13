@@ -48,7 +48,7 @@ def printError():
 	print "\t1. Publishing without topic :\n\t python publisher.py port=5562\n"
 	print "\t1. Publishing without topic[SECURED] :\n\t python publisher.py port=5562 secured=1\n"
 	print "\t1. Publishing with topic :\n\t python publisher.py port=5562 topic=topicName\n"
-	print "\t1. Publishing without topic[SECURED] :\n\t python publisher.py port=5562 topic=topicName secured=1\n"
+	print "\t1. Publishing with topic[SECURED] :\n\t python publisher.py port=5562 topic=topicName secured=1\n"
 	exit()
 def getDataType():
 	print "======================================================="

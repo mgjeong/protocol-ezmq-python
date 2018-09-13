@@ -71,7 +71,7 @@ class _cythonClass(object):
 		self.callbacks = callbackObj
 	def callSubCB(self, pyEZMQMessage data, **kwargs):
 		if "topic" in kwargs:
-			log.debug("_cythonClass :: Calling callbacks for topic : ", kwargs["topic"])
+			log.debug("_cythonClass :: Calling callbacks for topic : %s" % kwargs["topic"])
 			return self.callbacks.subTopicDataCB(kwargs["topic"], data)
 		else:
 			log.debug("_cythonClass :: Calling callbacks for no topic")
@@ -328,7 +328,7 @@ cdef class pyEZMQPublisher:
 				and special characters _ - . and /
                 @return: Integer for EZMQ error code.'''
 		if "topic" in kwargs:
-			log.debug("pyEZMQPublisher :: publish with topic called here")
+			log.debug("pyEZMQPublisher :: publish with topic called here. Topic %s" % kwargs["topic"])
 			return self.pub.publish(kwargs["topic"], deref(event.msg))
 		else:
 			log.debug("pyEZMQPublisher :: publish without topic called here")
@@ -459,15 +459,15 @@ cdef class pyEZMQSubscriber:
 		log.debug("pyEZMQSubscriber :: Subscribe called.")
 		if "ip" in kwargs:
 			if  "port" in kwargs:
-				log.debug("pyEZMQSubscriber :: Subscribing with ip, port and topic", 
-					kwargs["ip"], kwargs["port"], kwargs["topic"])
+				log.debug("pyEZMQSubscriber :: Subscribing with ip, port and topic %s %s %s" 
+					% kwargs["ip"] % kwargs["port"] % kwargs["topic"])
 				return self.sub.subscribe(kwargs["ip"], kwargs["port"], kwargs["topic"])
 		elif "topic" in kwargs:
 			if isinstance(kwargs["topic"], list) :
 				log.debug("pyEZMQSubscriber :: Subscribing with topic list")
 				return self.sub.subscribe(<clist[string]>kwargs["topic"])
 			elif isinstance(kwargs["topic"], str):
-				log.debug("pyEZMQSubscriber :: Subscribing with topic string : ", <string>kwargs["topic"])
+				log.debug("pyEZMQSubscriber :: Subscribing with topic string : %s" % kwargs["topic"])
 				return self.sub.subscribe(<string>kwargs["topic"])
 			else:
 				__invalidInputException("INVALID topic type")
@@ -497,7 +497,7 @@ cdef class pyEZMQSubscriber:
 				log.debug("pyEZMQSubscriber :: unSubscribing with topic list")
 				return self.sub.unSubscribe(<clist[string]>kwargs["topic"])
 			elif isinstance(kwargs["topic"], str):
-				log.debug("pyEZMQSubscriber :: unSubscribing with topic string", <string>kwargs["topic"])
+				log.debug("pyEZMQSubscriber :: unSubscribing with topic string%s" % kwargs["topic"])
 				return self.sub.unSubscribe(<string>kwargs["topic"])
 			else:
 				__invalidInputException("INVALID topic type")
