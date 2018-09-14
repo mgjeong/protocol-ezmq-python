@@ -1,23 +1,36 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html><head><title>Python: module ezmqpy</title>
+<html><head><title>Python: module ezmqcy</title>
 <meta charset="utf-8">
 </head><body bgcolor="#f0f0f8">
 
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
 <tr bgcolor="#7799ee">
 <td valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ezmqpy</strong></big></big></font></td
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ezmqcy</strong></big></big></font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/arya/ezmq/current/build/ezmqpy.so">/home/arya/ezmq/current/build/ezmqpy.so</a></font></td></tr></table>
-    <p><tt>Documentation&nbsp;for&nbsp;EZMQ_PYTHON<br>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/arya/edgeMessaging/newCurrent/build/ezmqcy.so">/home/arya/edgeMessaging/newCurrent/build/ezmqcy.so</a></font></td></tr></table>
+    <p><tt>/*******************************************************************************<br>
+&nbsp;*&nbsp;Copyright&nbsp;2018&nbsp;Samsung&nbsp;Electronics&nbsp;All&nbsp;Rights&nbsp;Reserved.<br>
+&nbsp;*<br>
+&nbsp;*&nbsp;Licensed&nbsp;under&nbsp;the&nbsp;Apache&nbsp;License,&nbsp;Version&nbsp;2.0&nbsp;(the&nbsp;"License");<br>
+&nbsp;*&nbsp;you&nbsp;may&nbsp;not&nbsp;use&nbsp;this&nbsp;file&nbsp;except&nbsp;in&nbsp;compliance&nbsp;with&nbsp;the&nbsp;License.<br>
+&nbsp;*&nbsp;You&nbsp;may&nbsp;obtain&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;License&nbsp;at<br>
+&nbsp;*<br>
+&nbsp;*&nbsp;<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a><br>
+&nbsp;*<br>
+&nbsp;*&nbsp;Unless&nbsp;required&nbsp;by&nbsp;applicable&nbsp;law&nbsp;or&nbsp;agreed&nbsp;to&nbsp;in&nbsp;writing,&nbsp;software<br>
+&nbsp;*&nbsp;distributed&nbsp;under&nbsp;the&nbsp;License&nbsp;is&nbsp;distributed&nbsp;on&nbsp;an&nbsp;"AS&nbsp;IS"&nbsp;BASIS,<br>
+&nbsp;*&nbsp;WITHOUT&nbsp;WARRANTIES&nbsp;OR&nbsp;CONDITIONS&nbsp;OF&nbsp;ANY&nbsp;KIND,&nbsp;either&nbsp;express&nbsp;or&nbsp;implied.<br>
+&nbsp;*&nbsp;See&nbsp;the&nbsp;License&nbsp;for&nbsp;the&nbsp;specific&nbsp;language&nbsp;governing&nbsp;permissions&nbsp;and<br>
+&nbsp;*&nbsp;limitations&nbsp;under&nbsp;the&nbsp;License.<br>
+&nbsp;*<br>
+&nbsp;*******************************************************************************/<br>
 &nbsp;<br>
-`ezmqpy`&nbsp;is&nbsp;a&nbsp;cython&nbsp;binding&nbsp;module&nbsp;written&nbsp;over&nbsp;protocol-ezmq-cpp(libezmq)&nbsp;so&nbsp;as&nbsp;to&nbsp;expose&nbsp;ezmq&nbsp;api's&nbsp;to&nbsp;python&nbsp;applications.<br>
-Some&nbsp;sample&nbsp;subscriber&nbsp;and&nbsp;publisher&nbsp;are&nbsp;provided&nbsp;to&nbsp;show&nbsp;use&nbsp;of&nbsp;API's.<br>
+Documentation&nbsp;for&nbsp;EZMQ_PYTHON<br>
 &nbsp;<br>
-Copyright&nbsp;2017&nbsp;Samsung&nbsp;Electronics&nbsp;All&nbsp;Rights&nbsp;Reserved.<br>
-&nbsp;<br>
-Licensed&nbsp;under&nbsp;the&nbsp;Apache&nbsp;License,&nbsp;Version&nbsp;2.0&nbsp;(the&nbsp;"License")</tt></p>
+`ezmqcy`&nbsp;is&nbsp;a&nbsp;cython&nbsp;binding&nbsp;module&nbsp;written&nbsp;over&nbsp;protocol-ezmq-cpp(libezmq)&nbsp;so&nbsp;as&nbsp;to&nbsp;expose&nbsp;ezmq&nbsp;api's&nbsp;to&nbsp;python&nbsp;applications.<br>
+Some&nbsp;sample&nbsp;subscriber&nbsp;and&nbsp;publisher&nbsp;are&nbsp;provided&nbsp;to&nbsp;show&nbsp;use&nbsp;of&nbsp;API's.</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#aa55cc">
@@ -26,7 +39,8 @@ Licensed&nbsp;under&nbsp;the&nbsp;Apache&nbsp;License,&nbsp;Version&nbsp;2.0&nbs
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="__builtin__.html">__builtin__</a><br>
-</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+</td><td width="25%" valign=top><a href="logging.html">logging</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -37,18 +51,18 @@ Licensed&nbsp;under&nbsp;the&nbsp;Apache&nbsp;License,&nbsp;Version&nbsp;2.0&nbs
 <dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
 </font></dt><dd>
 <dl>
-<dt><font face="helvetica, arial">build.ezmqpy.pyCallbacks
-</font></dt><dt><font face="helvetica, arial">build.ezmqpy.pyEZMQAPI
-</font></dt><dt><font face="helvetica, arial">build.ezmqpy.pyEZMQMessage
+<dt><font face="helvetica, arial">build.ezmqcy.pyCallbacks
+</font></dt><dt><font face="helvetica, arial">build.ezmqcy.pyEZMQAPI
+</font></dt><dt><font face="helvetica, arial">build.ezmqcy.pyEZMQMessage
 </font></dt><dd>
 <dl>
-<dt><font face="helvetica, arial">build.ezmqpy.pyEZMQByteData
-</font></dt><dt><font face="helvetica, arial">build.ezmqpy.pyEvent
+<dt><font face="helvetica, arial">build.ezmqcy.pyEZMQByteData
+</font></dt><dt><font face="helvetica, arial">build.ezmqcy.pyEvent
 </font></dt></dl>
 </dd>
-<dt><font face="helvetica, arial">build.ezmqpy.pyEZMQPublisher
-</font></dt><dt><font face="helvetica, arial">build.ezmqpy.pyEZMQSubscriber
-</font></dt><dt><font face="helvetica, arial">build.ezmqpy.pyReading
+<dt><font face="helvetica, arial">build.ezmqcy.pyEZMQPublisher
+</font></dt><dt><font face="helvetica, arial">build.ezmqcy.pyEZMQSubscriber
+</font></dt><dt><font face="helvetica, arial">build.ezmqcy.pyReading
 </font></dt></dl>
 </dd>
 </dl>
@@ -96,6 +110,10 @@ Data and other attributes defined here:<br>
 e.g.&nbsp;:&nbsp;apiObj&nbsp;=&nbsp;ezmq.<a href="#pyEZMQAPI">pyEZMQAPI</a>()<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
+<dl><dt><a name="pyEZMQAPI-__reduce__"><strong>__reduce__</strong></a> = __reduce_cython__(...)</dt></dl>
+
+<dl><dt><a name="pyEZMQAPI-__setstate__"><strong>__setstate__</strong></a> = __setstate_cython__(...)</dt></dl>
+
 <dl><dt><a name="pyEZMQAPI-getStatus"><strong>getStatus</strong></a>(...)</dt><dd><tt>Get&nbsp;the&nbsp;current&nbsp;status&nbsp;of&nbsp;EZMQ&nbsp;Service.<br>
 This&nbsp;API&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;check&nbsp;the&nbsp;status&nbsp;of&nbsp;the&nbsp;EZMQ&nbsp;stack.<br>
 @return:&nbsp;EZMQStatusCode</tt></dd></dl>
@@ -132,6 +150,10 @@ e.g&nbsp;::&nbsp;data&nbsp;=&nbsp;ezmq.<a href="#pyEZMQByteData">pyEZMQByteData<
 </dl>
 <hr>
 Methods defined here:<br>
+<dl><dt><a name="pyEZMQByteData-__reduce__"><strong>__reduce__</strong></a> = __reduce_cython__(...)</dt></dl>
+
+<dl><dt><a name="pyEZMQByteData-__setstate__"><strong>__setstate__</strong></a> = __setstate_cython__(...)</dt></dl>
+
 <dl><dt><a name="pyEZMQByteData-getByteData"><strong>getByteData</strong></a>(...)</dt><dd><tt>Get&nbsp;Byte&nbsp;data&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;holds.<br>
 @return:&nbsp;byte&nbsp;data</tt></dd></dl>
 
@@ -184,6 +206,10 @@ It&nbsp;is&nbsp;used&nbsp;for&nbsp;typcasting&nbsp;bytedata/protobuf&nbsp;data&n
 when&nbsp;receiving&nbsp;callbacks,&nbsp;it&nbsp;is&nbsp;typecasted&nbsp;into&nbsp;bytedata/protobuf&nbsp;data.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
+<dl><dt><a name="pyEZMQMessage-__reduce__"><strong>__reduce__</strong></a> = __reduce_cython__(...)</dt></dl>
+
+<dl><dt><a name="pyEZMQMessage-__setstate__"><strong>__setstate__</strong></a> = __setstate_cython__(...)</dt></dl>
+
 <dl><dt><a name="pyEZMQMessage-getContentType"><strong>getContentType</strong></a>(...)</dt><dd><tt>Get&nbsp;the&nbsp;content-type&nbsp;of&nbsp;EZMQMessage&nbsp;instance.<br>
 @return:&nbsp;integer&nbsp;for&nbsp;EZMQ&nbsp;content&nbsp;type</tt></dd></dl>
 
@@ -211,6 +237,10 @@ e.g.&nbsp;:&nbsp;publisher&nbsp;=&nbsp;ezmq.<a href="#pyEZMQPublisher">pyEZMQPub
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;publisher.<a href="#pyEZMQPublisher-publish">publish</a>(data)&nbsp;[data&nbsp;is&nbsp;of&nbsp;type&nbsp;<a href="#pyEZMQMessage">pyEZMQMessage</a>]<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
+<dl><dt><a name="pyEZMQPublisher-__reduce__"><strong>__reduce__</strong></a> = __reduce_cython__(...)</dt></dl>
+
+<dl><dt><a name="pyEZMQPublisher-__setstate__"><strong>__setstate__</strong></a> = __setstate_cython__(...)</dt></dl>
+
 <dl><dt><a name="pyEZMQPublisher-getPort"><strong>getPort</strong></a>(...)</dt><dd><tt>Get&nbsp;the&nbsp;port&nbsp;of&nbsp;the&nbsp;publisher.<br>
 @return:&nbsp;Integer&nbsp;port&nbsp;number</tt></dd></dl>
 
@@ -229,6 +259,12 @@ e.g.::&nbsp;===&gt;publisher.<a href="#pyEZMQPublisher-publish">publish</a>(data
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2)&nbsp;Topic&nbsp;name&nbsp;can&nbsp;have&nbsp;letters&nbsp;[a-z,&nbsp;A-z],&nbsp;numerics&nbsp;[0-9]&nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;special&nbsp;characters&nbsp;_&nbsp;-&nbsp;.&nbsp;and&nbsp;/<br>
 @return:&nbsp;Integer&nbsp;for&nbsp;EZMQ&nbsp;error&nbsp;code.</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQPublisher-setServerPrivateKey"><strong>setServerPrivateKey</strong></a>(...)</dt><dd><tt>Set&nbsp;the&nbsp;server&nbsp;private/secret&nbsp;key.<br>
+@param&nbsp;key:&nbsp;Server&nbsp;private/Secret&nbsp;key.<br>
+@return&nbsp;EZMQErrorCode&nbsp;-&nbsp;EZMQ_OK&nbsp;on&nbsp;success,&nbsp;otherwise&nbsp;appropriate&nbsp;error&nbsp;code.<br>
+@note:&nbsp;(1)&nbsp;Key&nbsp;should&nbsp;be&nbsp;40-character&nbsp;string&nbsp;encoded&nbsp;in&nbsp;the&nbsp;Z85&nbsp;encoding&nbsp;format&nbsp;&lt;br&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2)&nbsp;This&nbsp;API&nbsp;should&nbsp;be&nbsp;called&nbsp;before&nbsp;<a href="#pyEZMQPublisher-start">start</a>()&nbsp;API.</tt></dd></dl>
 
 <dl><dt><a name="pyEZMQPublisher-start"><strong>start</strong></a>(...)</dt><dd><tt>Start&nbsp;publisher&nbsp;instance.<br>
 @return:&nbsp;Integer&nbsp;for&nbsp;stack&nbsp;error&nbsp;codes</tt></dd></dl>
@@ -256,11 +292,33 @@ e.g.&nbsp;::&nbsp;==&gt;&nbsp;subscriber&nbsp;=&nbsp;ezmq.<a href="#pyEZMQSubscr
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;==&gt;subscriber.<a href="#pyEZMQSubscriber-subscribe">subscribe</a>()&nbsp;or&nbsp;==&gt;subscriber.<a href="#pyEZMQSubscriber-subscribe">subscribe</a>(topic=topicStr)<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
+<dl><dt><a name="pyEZMQSubscriber-__reduce__"><strong>__reduce__</strong></a> = __reduce_cython__(...)</dt></dl>
+
+<dl><dt><a name="pyEZMQSubscriber-__setstate__"><strong>__setstate__</strong></a> = __setstate_cython__(...)</dt></dl>
+
 <dl><dt><a name="pyEZMQSubscriber-getIp"><strong>getIp</strong></a>(...)</dt><dd><tt>Get&nbsp;IP&nbsp;address<br>
 @return:&nbsp;IP&nbsp;address&nbsp;as&nbsp;string.</tt></dd></dl>
 
 <dl><dt><a name="pyEZMQSubscriber-getPort"><strong>getPort</strong></a>(...)</dt><dd><tt>Get&nbsp;port&nbsp;of&nbsp;subscriber.<br>
 @return:&nbsp;Integer&nbsp;of&nbsp;port.</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQSubscriber-setClientKeys"><strong>setClientKeys</strong></a>(...)</dt><dd><tt>Set&nbsp;the&nbsp;security&nbsp;keys&nbsp;of&nbsp;client/its&nbsp;own.<br>
+@param&nbsp;clientPrivateKey&nbsp;-&nbsp;Client&nbsp;private/secret&nbsp;key.<br>
+@param&nbsp;clientPublicKey&nbsp;-&nbsp;Client&nbsp;public&nbsp;key.<br>
+@return&nbsp;EZMQErrorCode&nbsp;-&nbsp;EZMQ_OK&nbsp;on&nbsp;success,&nbsp;otherwise&nbsp;appropriate&nbsp;error&nbsp;code.<br>
+@note<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1)&nbsp;Key&nbsp;should&nbsp;be&nbsp;40-character&nbsp;string&nbsp;encoded&nbsp;in&nbsp;the&nbsp;Z85&nbsp;encoding&nbsp;format&nbsp;&lt;br&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2)&nbsp;This&nbsp;API&nbsp;should&nbsp;be&nbsp;called&nbsp;before&nbsp;<a href="#pyEZMQSubscriber-start">start</a>()&nbsp;API.</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQSubscriber-setServerPublicKey"><strong>setServerPublicKey</strong></a>(...)</dt><dd><tt>Set&nbsp;the&nbsp;server&nbsp;public&nbsp;key.<br>
+@param&nbsp;key&nbsp;-&nbsp;Server&nbsp;public&nbsp;key.<br>
+@return&nbsp;EZMQErrorCode&nbsp;-&nbsp;EZMQ_OK&nbsp;on&nbsp;success,&nbsp;otherwise&nbsp;appropriate&nbsp;error&nbsp;code.<br>
+@note<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1)&nbsp;Key&nbsp;should&nbsp;be&nbsp;40-character&nbsp;string&nbsp;encoded&nbsp;in&nbsp;the&nbsp;Z85&nbsp;encoding&nbsp;format&nbsp;&lt;br&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2)&nbsp;This&nbsp;API&nbsp;should&nbsp;be&nbsp;called&nbsp;before&nbsp;<a href="#pyEZMQSubscriber-start">start</a>()&nbsp;API.&nbsp;&lt;br&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(3)&nbsp;If&nbsp;using&nbsp;the&nbsp;following&nbsp;API&nbsp;in&nbsp;secured&nbsp;mode:&nbsp;&lt;br&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#pyEZMQSubscriber-subscribe">subscribe</a>(const&nbsp;std::string&nbsp;&amp;ip,&nbsp;const&nbsp;int&nbsp;&amp;port,&nbsp;std::string&nbsp;topic);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setServerPublicKey&nbsp;API&nbsp;needs&nbsp;to&nbsp;be&nbsp;called&nbsp;before&nbsp;that.</tt></dd></dl>
 
 <dl><dt><a name="pyEZMQSubscriber-start"><strong>start</strong></a>(...)</dt><dd><tt>Start&nbsp;the&nbsp;subscriber&nbsp;instance.<br>
 @return:&nbsp;EZMQErrorCodes</tt></dd></dl>
@@ -269,12 +327,38 @@ e.g.&nbsp;::&nbsp;==&gt;&nbsp;subscriber&nbsp;=&nbsp;ezmq.<a href="#pyEZMQSubscr
 @return:&nbsp;EZMQErrorCodes</tt></dd></dl>
 
 <dl><dt><a name="pyEZMQSubscriber-subscribe"><strong>subscribe</strong></a>(...)</dt><dd><tt>Subscribe&nbsp;for&nbsp;an&nbsp;event/message&nbsp;on&nbsp;a&nbsp;particular&nbsp;topic&nbsp;or&nbsp;otherwise.<br>
-@param&nbsp;topic:&nbsp;[Optional]&nbsp;Topic&nbsp;on&nbsp;which&nbsp;event&nbsp;is&nbsp;to&nbsp;be&nbsp;published.<br>
+@param&nbsp;topic:&nbsp;[Optional]&nbsp;Topic&nbsp;on&nbsp;which&nbsp;event&nbsp;is&nbsp;to&nbsp;be&nbsp;subscribed.<br>
 @type&nbsp;topic:&nbsp;L{string}<br>
+@type&nbsp;topic:&nbsp;L{list}<br>
 @note:&nbsp;(1)&nbsp;Topic&nbsp;name&nbsp;should&nbsp;be&nbsp;as&nbsp;path&nbsp;format.&nbsp;E.g.'home/livingroom/'<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2)&nbsp;Topic&nbsp;name&nbsp;can&nbsp;have&nbsp;letters&nbsp;[a-z,&nbsp;A-z],&nbsp;numerics&nbsp;[0-9]<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;special&nbsp;characters&nbsp;_&nbsp;-&nbsp;.&nbsp;and&nbsp;/.<br>
-@return:&nbsp;EZMQErrorCodes.</tt></dd></dl>
+@return:&nbsp;EZMQErrorCodes.<br>
+Usage&nbsp;:&nbsp;e.g.&nbsp;subscriber&nbsp;=&nbsp;ezmq.<a href="#pyEZMQSubscriber">pyEZMQSubscriber</a>(ip,&nbsp;int(port),&nbsp;cb)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subscriber.<a href="#pyEZMQSubscriber-start">start</a>()<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subscriber.<a href="#pyEZMQSubscriber-subscribe">subscribe</a>()&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Subscribe&nbsp;without&nbsp;topic<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subscriber.<a href="#pyEZMQSubscriber-subscribe">subscribe</a>(topic=topicString)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Subscribe&nbsp;with&nbsp;topic&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subscriber.<a href="#pyEZMQSubscriber-subscribe">subscribe</a>(topic=topicList)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Subscribe&nbsp;with&nbsp;topic&nbsp;List</tt></dd></dl>
+
+<dl><dt><a name="pyEZMQSubscriber-unSubscribe"><strong>unSubscribe</strong></a>(...)</dt><dd><tt>Unsubscribe&nbsp;for&nbsp;an&nbsp;event/message&nbsp;on&nbsp;a&nbsp;specific&nbsp;topic&nbsp;<br>
+or&nbsp;Unsubscribe&nbsp;all&nbsp;the&nbsp;events/message&nbsp;from&nbsp;publishers.<br>
+@param&nbsp;topic:&nbsp;[Optional]&nbsp;Topic&nbsp;on&nbsp;which&nbsp;event&nbsp;is&nbsp;to&nbsp;be&nbsp;unsubscribed.<br>
+@type&nbsp;topic:&nbsp;string<br>
+@type&nbsp;topic:&nbsp;list<br>
+@return:&nbsp;EZMQErrorCode<br>
+Usage&nbsp;:&nbsp;e.g.&nbsp;subscriber&nbsp;=&nbsp;ezmq.<a href="#pyEZMQSubscriber">pyEZMQSubscriber</a>(ip,&nbsp;int(port),&nbsp;cb)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subscriber.<a href="#pyEZMQSubscriber-start">start</a>()<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subscriber.<a href="#pyEZMQSubscriber-unSubscribe">unSubscribe</a>()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Unsubscribe&nbsp;without&nbsp;topic<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subscriber.<a href="#pyEZMQSubscriber-unSubscribe">unSubscribe</a>(topic=topicString)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Unsubscribe&nbsp;with&nbsp;topic&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subscriber.<a href="#pyEZMQSubscriber-unSubscribe">unSubscribe</a>(topic=topicList)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Unsubscribe&nbsp;with&nbsp;topic&nbsp;List</tt></dd></dl>
 
 <hr>
 Data and other attributes defined here:<br>
@@ -303,6 +387,10 @@ Attributes&nbsp;:<br>
 </dl>
 <hr>
 Methods defined here:<br>
+<dl><dt><a name="pyEvent-__reduce__"><strong>__reduce__</strong></a> = __reduce_cython__(...)</dt></dl>
+
+<dl><dt><a name="pyEvent-__setstate__"><strong>__setstate__</strong></a> = __setstate_cython__(...)</dt></dl>
+
 <dl><dt><a name="pyEvent-add_reading"><strong>add_reading</strong></a>(...)</dt><dd><tt>Initialize&nbsp;<a href="#pyReading">pyReading</a>&nbsp;instance&nbsp;for&nbsp;<a href="#pyEvent">pyEvent</a>&nbsp;and&nbsp;stores&nbsp;their&nbsp;native&nbsp;pointers.<br>
 All&nbsp;Reading&nbsp;APIs&nbsp;are&nbsp;to&nbsp;be&nbsp;called&nbsp;on&nbsp;this&nbsp;instance.<br>
 @return:&nbsp;instance&nbsp;of&nbsp;<a href="#pyReading">pyReading</a>&nbsp;containing&nbsp;pointer&nbsp;to&nbsp;new&nbsp;Reading&nbsp;instance</tt></dd></dl>
@@ -395,6 +483,10 @@ and&nbsp;Event&nbsp;will&nbsp;set&nbsp;as&nbsp;EZMQ_CONTENT_TYPE_PROTOBUF&nbsp;b
 It&nbsp;contains&nbsp;a&nbsp;pointer&nbsp;to&nbsp;native&nbsp;Reading&nbsp;instance.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
+<dl><dt><a name="pyReading-__reduce__"><strong>__reduce__</strong></a> = __reduce_cython__(...)</dt></dl>
+
+<dl><dt><a name="pyReading-__setstate__"><strong>__setstate__</strong></a> = __setstate_cython__(...)</dt></dl>
+
 <dl><dt><a name="pyReading-created"><strong>created</strong></a>(...)</dt><dd><tt>Get&nbsp;created&nbsp;field&nbsp;of&nbsp;reading&nbsp;instance.<br>
 @return:&nbsp;created&nbsp;as&nbsp;Integer</tt></dd></dl>
 
@@ -456,25 +548,6 @@ Data and other attributes defined here:<br>
 <dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#pyReading-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
 
 </td></tr></table></td></tr></table><p>
-<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
-<tr bgcolor="#eeaa77">
-<td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
-    
-<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-contentString"><strong>contentString</strong></a>(...)</dt><dd><tt><a href="#-contentString">contentString</a>(value)<br>
-This&nbsp;is&nbsp;a&nbsp;method&nbsp;to&nbsp;get&nbsp;Content&nbsp;String&nbsp;value&nbsp;for&nbsp;passed&nbsp;EZMQContentType&nbsp;if&nbsp;present.<br>
-@param&nbsp;value:&nbsp;EZMQContentType<br>
-@return:&nbsp;String</tt></dd></dl>
- <dl><dt><a name="-errorString"><strong>errorString</strong></a>(...)</dt><dd><tt><a href="#-errorString">errorString</a>(value)<br>
-This&nbsp;is&nbsp;a&nbsp;method&nbsp;to&nbsp;get&nbsp;Error&nbsp;String&nbsp;value&nbsp;for&nbsp;passed&nbsp;EZMQErrorCode&nbsp;if&nbsp;present.<br>
-@param&nbsp;value:&nbsp;EZMQErrorCode<br>
-@return:&nbsp;String</tt></dd></dl>
- <dl><dt><a name="-statusString"><strong>statusString</strong></a>(...)</dt><dd><tt><a href="#-statusString">statusString</a>(value)<br>
-This&nbsp;is&nbsp;a&nbsp;method&nbsp;to&nbsp;get&nbsp;Status&nbsp;String&nbsp;value&nbsp;for&nbsp;passed&nbsp;EZMQStatusCode&nbsp;if&nbsp;present.<br>
-@param&nbsp;value:&nbsp;EZMQStatusCode<br>
-@return:&nbsp;String</tt></dd></dl>
-</td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#55aa55">
 <td colspan=3 valign=bottom>&nbsp;<br>
