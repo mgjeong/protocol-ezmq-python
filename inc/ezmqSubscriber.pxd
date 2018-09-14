@@ -30,6 +30,9 @@ cdef extern from "EZMQSubscriber.h" namespace "ezmq" :
 		#@param topicCallback - Subscriber callback to receive events for a particular topic.
 		EZMQSubscriber(string ip, int port, EZMQSubCB subCB, EZMQSubTopicCB subTopicCB)
 
+		EZMQErrorCode setClientKeys(const string clientPrivateKey, const string clientPublicKey)
+		EZMQErrorCode setServerPublicKey(const string key)
+		
 		#Declaration of start() API of EZMQSubscriber class.
 		#@return EZMQErrorCode - EZMQ_OK on success, otherwise appropriate error code.
 		EZMQErrorCode start()

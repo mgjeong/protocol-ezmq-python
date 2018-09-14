@@ -2,6 +2,7 @@ import sys, time, struct
 sys.path.append("..") 
 from build import ezmqcy as ezmq
 
+gServerSecretKey = "[:X%Q3UfY+kv2A^.wv:(qy2E=bk0L][cm=mS3Hcx"
 def getEventData():
 	event = ezmq.pyEvent()
 	event.init()
@@ -42,6 +43,13 @@ def getEventData():
 		loop += 1
 	return event
 
+def printError():
+	print "Re-Run publisher samples with option as follows:\n"
+	print "\t1. Publishing without topic :\n\t python publisher.py port=5562\n"
+	print "\t1. Publishing without topic[SECURED] :\n\t python publisher.py port=5562 secured=1\n"
+	print "\t1. Publishing with topic :\n\t python publisher.py port=5562 topic=topicName\n"
+	print "\t1. Publishing with topic[SECURED] :\n\t python publisher.py port=5562 topic=topicName secured=1\n"
+	exit()
 def getDataType():
 	print "======================================================="
 	dataType = int(input("WHAT DATA TO PUBLISH ?  PLEASE ENTER(1 OR 2)\n"
@@ -49,18 +57,24 @@ def getDataType():
 	return dataType
 
 def getArgs():
+	if len(sys.argv) == 1:
+		printError()
 	port = 0
 	topicStr = ""
+	secured = 0
 	for elem in sys.argv:
 		argName = elem.split("=")[0].lower()
 		if(argName == 'topic'):
 			topicStr = elem.split("=")[1]
 		elif(argName == 'port'):
 			port = elem.split("=")[1]
+		elif(argName == "secured"):
+			if elem.split("=")[1] is "1":
+				secured = 1
 		
-	return port, topicStr
+	return port, topicStr, secured
 print "Running publisher sample\n"
-port, topicStr = getArgs()
+port, topicStr, secured = getArgs()
 print "-----------------------------------------------------------"
 if port is 0:
         port = 5562
@@ -73,6 +87,8 @@ if topicStr is "":
         print "========>TO USE TOPIC run subscriber topic=topicName"
 else:
         print "USING TOPIC :: ", topicStr
+if secured == 1:
+	print "SECURITY ENABLED FOR SAMPLE."
 print "-----------------------------------------------------------"
 
 print "Creating ezmq API object"
@@ -86,6 +102,14 @@ print "EZMQAPI Status : ", ezmq.statusString(apiObj.getStatus())
 print "Creating ezmq Publisher object"
 publisher = ezmq.pyEZMQPublisher(int(port))
 print "Python ezmqPublisher object created successfully"
+if secured == 1:
+	print "Setting Server key"
+	try:
+		publisher.setServerPrivateKey(gServerSecretKey)
+	except Exception as e:
+		print "Exception caught for Settings server And client keys\n", e
+		exit()
+	print "Successfully set server and client keys."
 print "Starting ezmq publisher"
 ret = publisher.start()
 print "Starting Publisher RESULT", ezmq.errorString(ret)

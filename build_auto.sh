@@ -28,6 +28,7 @@ DEP_ROOT=$(pwd)/dependencies
 EZMQ_ROOT=${DEP_ROOT}/protocol-ezmq-cpp
 EZMQ_TARGET_ARCH="$(uname -m)"
 EZMQ_WITH_DEP=false
+EZMQ_WITH_SECURITY=false
 EZMQ_BUILD_MODE="release"
 EZMQ_CPP_REPO="git@github.sec.samsung.net:RS7-EdgeComputing/protocol-ezmq-cpp.git"
 
@@ -43,14 +44,14 @@ install_dependencies(){
     fi
 
     cd ${EZMQ_ROOT}
-    ./build_auto.sh --with_dependencies=${EZMQ_WITH_DEP} --target_arch=${EZMQ_TARGET_ARCH} --build_mode=${EZMQ_BUILD_MODE}
+    ./build_auto.sh --with_dependencies=${EZMQ_WITH_DEP} --target_arch=${EZMQ_TARGET_ARCH} --build_mode=${EZMQ_BUILD_MODE} --with_security=${EZMQ_WITH_SECURITY}
     cd ${PROJECT_ROOT}
 
 }
 
 
-build_x86() {
-    echo -e "Building for x86"
+build_python() {
+    echo -e "Building PYTHON"
 
     if [ ${EZMQ_WITH_DEP} = true ]; then
         install_dependencies
@@ -58,22 +59,13 @@ build_x86() {
 
     #build cython using setup file.
     if [ ${EZMQ_BUILD_MODE} == "debug" ]; then
-	python setup.py build_ext --inplace --debug
-    else
-	python setup.py build_ext --inplace
-    fi
-}
-
-build_x86_64() {
-    echo -e "Building for x86_64."
-
-    if [ ${EZMQ_WITH_DEP} = true ]; then
-        install_dependencies
-    fi
-
-    #build cython using setup file.
-    if [ ${EZMQ_BUILD_MODE} == "debug" ]; then
-        python setup.py build_ext --inplace --debug
+        if [ ${EZMQ_WITH_SECURITY} == "true" ]; then
+            python setup.py build_ext --inplace --debug -Dsecured
+        else
+	    python setup.py build_ext --inplace --debug
+        fi
+    elif [ ${EZMQ_WITH_SECURITY} == "true" ]; then
+        python setup.py build_ext --inplace -Dsecured
     else
         python setup.py build_ext --inplace
     fi
@@ -90,9 +82,11 @@ usage() {
     echo -e "${GREEN}Examples: ${NO_COLOUR}"
     echo -e "${BLUE}  build:-${NO_COLOUR}"
     echo "  $ ./build_auto.sh --target_arch=x86"
-    echo "  $ ./build_auto.sh --with_dependencies=true --target_arch=x86"
+    echo "  $ ./build_auto.sh --with_dependencies=true --target_arch=x86 --with_security=true"
     echo -e "${BLUE}  debug mode build:-${NO_COLOUR}"
     echo "  $ ./build_auto.sh --target_arch=x86 --build_mode=debug"
+    echo -e "${BLUE}  secure mode build:-${NO_COLOUR}"
+    echo "  $ ./build_auto.sh --target_arch=x86 --with_security=true"
     echo -e "${BLUE}  clean:-${NO_COLOUR}"
     echo "  $ ./build_auto.sh -c"
     echo -e "${BLUE}  help:-${NO_COLOUR}"
@@ -103,11 +97,11 @@ usage() {
 
 build() {
     if [ "x86" = ${EZMQ_TARGET_ARCH} ]; then
-         build_x86; exit 0;
+         build_python; exit 0;
     elif [ "i686" = ${EZMQ_TARGET_ARCH} ]; then
-         build_x86; exit 0;
+         build_python; exit 0;
     elif [ "x86_64" = ${EZMQ_TARGET_ARCH} ]; then
-         build_x86_64; exit 0;
+         build_python; exit 0;
     else
          echo -e "${RED}Not a supported architecture${NO_COLOUR}"
          usage; exit 1;
@@ -142,6 +136,11 @@ process_cmd_args() {
             --build_mode=*)
                 EZMQ_BUILD_MODE="${1#*=}";
                 echo -e "${GREEN}Build mode is: $EZMQ_BUILD_MODE${NO_COLOUR}"
+                shift 1;
+                ;;
+            --with_security=*)
+                EZMQ_WITH_SECURITY="${1#*=}";
+                echo -e "${GREEN}Security enabled to : $EZMQ_WITH_SECURITY${NO_COLOUR}"
                 shift 1;
                 ;;
             -c)

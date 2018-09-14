@@ -29,6 +29,10 @@ import logging as log
 if LOG_LEVEL == 'debug':
 	log.basicConfig(level=log.DEBUG)
 
+if SECURED:
+	print "SECURED ENABLED"
+else:
+	print "SECURED DISABLED" 
 def __invalidInputException(cause):
 	log.error("Raising valuErrpr exception for " + cause)
 	raise ValueError("ERROR : " + cause)
@@ -67,7 +71,7 @@ class _cythonClass(object):
 		self.callbacks = callbackObj
 	def callSubCB(self, pyEZMQMessage data, **kwargs):
 		if "topic" in kwargs:
-			log.debug("_cythonClass :: Calling callbacks for topic : ", kwargs["topic"])
+			log.debug("_cythonClass :: Calling callbacks for topic : %s" % kwargs["topic"])
 			return self.callbacks.subTopicDataCB(kwargs["topic"], data)
 		else:
 			log.debug("_cythonClass :: Calling callbacks for no topic")
@@ -324,11 +328,26 @@ cdef class pyEZMQPublisher:
 				and special characters _ - . and /
                 @return: Integer for EZMQ error code.'''
 		if "topic" in kwargs:
-			log.debug("pyEZMQPublisher :: publish with topic called here")
+			log.debug("pyEZMQPublisher :: publish with topic called here. Topic %s" % kwargs["topic"])
 			return self.pub.publish(kwargs["topic"], deref(event.msg))
 		else:
 			log.debug("pyEZMQPublisher :: publish without topic called here")
 			return self.pub.publish(deref(event.msg))
+	def setServerPrivateKey(self, key):
+		'''
+		Set the server private/secret key.
+		@param key: Server private/Secret key.
+		@return EZMQErrorCode - EZMQ_OK on success, otherwise appropriate error code.
+		@note: (1) Key should be 40-character string encoded in the Z85 encoding format <br>
+			(2) This API should be called before start() API.'''
+		if SECURED:
+			try:
+				log.debug("pyEZMQPublisher :: setServerPrivateKey called here")
+				return self.pub.setServerPrivateKey(key)
+			except Exception as e:
+				__invalidInputException(e)
+		else:
+			__invalidInputException("Secure API unavailable. Build stack in secure mode.")
 	def start(self):
 		'''
 		Start publisher instance.
@@ -376,6 +395,42 @@ cdef class pyEZMQSubscriber:
 		if self.sub is not NULL:
 			log.debug("pyEZMQSubscriber :: Deleting native object here")	
 			del self.sub
+	def setClientKeys(self, clientPrivateKey, clientPublicKey):
+		'''
+		Set the security keys of client/its own.
+		@param clientPrivateKey - Client private/secret key.
+		@param clientPublicKey - Client public key.
+		@return EZMQErrorCode - EZMQ_OK on success, otherwise appropriate error code.
+		@note
+			(1) Key should be 40-character string encoded in the Z85 encoding format <br>
+			(2) This API should be called before start() API.'''
+		if SECURED:
+			try:
+				log.debug("pyEZMQSubscriber :: setClientKeys called here")
+				return self.sub.setClientKeys(clientPrivateKey, clientPublicKey)
+			except Exception as e:
+				__invalidInputException(e)
+		else:
+			__invalidInputException("Secure API unavailable. Build stack in secure mode.")
+	def setServerPublicKey(self, key):
+		'''
+		Set the server public key.
+		@param key - Server public key.
+		@return EZMQErrorCode - EZMQ_OK on success, otherwise appropriate error code.
+		@note
+			(1) Key should be 40-character string encoded in the Z85 encoding format <br>
+			(2) This API should be called before start() API. <br>
+			(3) If using the following API in secured mode: <br>
+			   subscribe(const std::string &ip, const int &port, std::string topic);
+			   setServerPublicKey API needs to be called before that.'''
+		if SECURED:
+			try:
+				log.debug("pyEZMQSubscriber :: setServerPublicKey called here")
+				return self.sub.setServerPublicKey(key)
+			except Exception as e:
+				__invalidInputException(e)
+		else:
+			__invalidInputException("Secure API unavailable. Build stack in secure mode.")
 	def start(self):
 		'''
 		Start the subscriber instance.
@@ -404,15 +459,15 @@ cdef class pyEZMQSubscriber:
 		log.debug("pyEZMQSubscriber :: Subscribe called.")
 		if "ip" in kwargs:
 			if  "port" in kwargs:
-				log.debug("pyEZMQSubscriber :: Subscribing with ip, port and topic", 
-					kwargs["ip"], kwargs["port"], kwargs["topic"])
+				log.debug("pyEZMQSubscriber :: Subscribing with ip, port and topic %s %s %s" 
+					% kwargs["ip"] % kwargs["port"] % kwargs["topic"])
 				return self.sub.subscribe(kwargs["ip"], kwargs["port"], kwargs["topic"])
 		elif "topic" in kwargs:
 			if isinstance(kwargs["topic"], list) :
 				log.debug("pyEZMQSubscriber :: Subscribing with topic list")
 				return self.sub.subscribe(<clist[string]>kwargs["topic"])
 			elif isinstance(kwargs["topic"], str):
-				log.debug("pyEZMQSubscriber :: Subscribing with topic string : ", <string>kwargs["topic"])
+				log.debug("pyEZMQSubscriber :: Subscribing with topic string : %s" % kwargs["topic"])
 				return self.sub.subscribe(<string>kwargs["topic"])
 			else:
 				__invalidInputException("INVALID topic type")
@@ -442,7 +497,7 @@ cdef class pyEZMQSubscriber:
 				log.debug("pyEZMQSubscriber :: unSubscribing with topic list")
 				return self.sub.unSubscribe(<clist[string]>kwargs["topic"])
 			elif isinstance(kwargs["topic"], str):
-				log.debug("pyEZMQSubscriber :: unSubscribing with topic string", <string>kwargs["topic"])
+				log.debug("pyEZMQSubscriber :: unSubscribing with topic string%s" % kwargs["topic"])
 				return self.sub.unSubscribe(<string>kwargs["topic"])
 			else:
 				__invalidInputException("INVALID topic type")

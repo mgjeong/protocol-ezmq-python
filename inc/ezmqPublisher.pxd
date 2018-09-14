@@ -31,6 +31,8 @@ cdef extern from "EZMQPublisher.h" namespace "ezmq" :
 		#@param errorCB - Error Callback.
 		EZMQPublisher(int port, EZMQStartCB startCB, EZMQStopCB stopCB, EZMQErrorCB errorCB)
 
+		EZMQErrorCode setServerPrivateKey(const string key)
+
 		#Declaration of start() API of EZMQPublisher class.
 		#@return EZMQErrorCode - EZMQ_OK on success, otherwise appropriate error code.
 		EZMQErrorCode start()
