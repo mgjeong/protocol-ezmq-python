@@ -111,13 +111,13 @@
 	
 	IF %secure%==true (
 	IF %buildmode%==debug (
-	CALL build_auto.bat --with_dependencies=true --with_security=true
+	CALL build_auto.bat --with_dependencies=true --with_security=true --build_mode=debug
 	) ELSE (
 	CALL build_auto.bat --with_dependencies=true --with_security=true
 	)
 	) ELSE (
 	IF %buildmode%==debug (
-	CALL build_auto.bat --with_dependencies=true
+	CALL build_auto.bat --with_dependencies=true --build_mode=debug
 	) ELSE (
 	CALL build_auto.bat --with_dependencies=true
 	)
@@ -133,9 +133,9 @@
 	IF %buildmode%==debug (
 		IF EXIST "dependencies/protocol-ezmq-cpp/out/windows/win32/amd64/debug/ezmq.lib" (
 			IF %secure%==true (
-				python setup.py build_ext --inplace --debug -Dsecured
+				python setup.py build_ext --inplace -Ddebug -Dsecured
 			) ELSE (
-				python setup.py build_ext --inplace --debug
+				python setup.py build_ext --inplace -Ddebug
 			)
 		) ELSE (
 		ECHO ezmq.lib not found for debug build. Try again.

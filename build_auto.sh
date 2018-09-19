@@ -60,9 +60,9 @@ build_python() {
     #build cython using setup file.
     if [ ${EZMQ_BUILD_MODE} == "debug" ]; then
         if [ ${EZMQ_WITH_SECURITY} == "true" ]; then
-            python setup.py build_ext --inplace --debug -Dsecured
+            python setup.py build_ext --inplace -Ddebug -Dsecured
         else
-	    python setup.py build_ext --inplace --debug
+	    python setup.py build_ext --inplace -Ddebug
         fi
     elif [ ${EZMQ_WITH_SECURITY} == "true" ]; then
         python setup.py build_ext --inplace -Dsecured
