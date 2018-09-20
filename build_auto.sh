@@ -40,7 +40,7 @@ install_dependencies(){
     if [ -d "./protocol-ezmq-cpp" ]; then
         printf "Protocol ezmq cpp directory already exists.\n\nIgnoring clone.\nBuilding again\n\n"
     else
-        git clone ${EZMQ_CPP_REPO}
+        git clone -b v1.0_rel ${EZMQ_CPP_REPO}
     fi
 
     cd ${EZMQ_ROOT}
