@@ -45,7 +45,7 @@ compiler_directives = {}
 define_macros = []
 log_level='warn'
 
-if '--debug' in sys.argv:
+if '-Ddebug' in sys.argv:
 	DEBUG=True
 if '-Dsecured' in sys.argv:
 	SECURE=True
@@ -98,7 +98,10 @@ elif target_os == "win32":
 	if SECURE:
 		extra_objs.append(ezmqcpp + "dependencies/libsodium/bin/x64/Release/v140/static/libsodium.lib")
 	
-	extra_objs.append(ezmqcpp + "out/windows/win32/amd64/release/ezmq.lib")
+	if DEBUG:
+		extra_objs.append(ezmqcpp + "out/windows/win32/amd64/debug/ezmq.lib")
+	else:
+		extra_objs.append(ezmqcpp + "out/windows/win32/amd64/release/ezmq.lib")
 	extra_objs.append(protobuf + "cmake/build/solution/Release/libprotobuf.lib")
 	extra_objs.append(ezmqcpp + "/dependencies/libzmq/bin/x64/Release/v140/static/libzmq.lib")
 	extra_objs.append("ws2_32.lib")
