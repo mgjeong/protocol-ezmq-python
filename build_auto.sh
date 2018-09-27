@@ -108,6 +108,24 @@ build() {
     fi
 }
 
+clean_ezmq_python() {
+    echo -e "Cleaning ${BLUE}${PROJECT_ROOT}${NO_COLOUR}"
+    echo -e "Cleaning dependencies : ${BLUE}${EZMQ_ROOT}${NO_COLOUR}"
+    cd ${EZMQ_ROOT}
+
+    ./build_auto.sh -c
+
+    cd ${PROJECT_ROOT}
+
+    echo -e "Cleaning ${RED}cython source files${NO_COLOUR}"
+    rm -rf ezmqcy.cpp
+    echo -e "Cleaning ${RED}build/ezmqcy.so cython library${NO_COLOUR}"
+    rm -rf build/ezmqcy.so
+    echo -e "Cleaning ${RED}temp build folders${NO_COLOUR}"
+    rm -rf build/temp.linux-i686-2.7
+    echo -e "Finished Cleaning Cython build directories."
+}
+
 process_cmd_args() {
     if [ "$#" -eq 0  ]; then
         echo -e "No argument.."
@@ -144,7 +162,7 @@ process_cmd_args() {
                 shift 1;
                 ;;
             -c)
-                clean_ezmq
+                clean_ezmq_python
                 shift 1; exit 0
                 ;;
             -h)
