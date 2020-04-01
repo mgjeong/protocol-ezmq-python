@@ -339,7 +339,7 @@ class EZMQTests(unittest.TestCase):
                 obj.set_origin(10)
                 readObj = obj.add_reading()
                 readObj.set_name("NAME")
-                readObj.set_value("samsung")
+                readObj.set_value("sam")
                 readObj.set_created(25)
                 readObj.set_device("DEVICE")
                 readObj.set_modified(20)
@@ -350,7 +350,7 @@ class EZMQTests(unittest.TestCase):
 		self.assertNotEqual(readObj, None)
                 self.assertEqual(readObj.id(), "ID1")
                 self.assertEqual(readObj.name(), "NAME")
-                self.assertEqual(readObj.value(), "samsung")
+                self.assertEqual(readObj.value(), "sam")
                 self.assertEqual(readObj.device(), "DEVICE")
                 self.assertEqual(readObj.created(), 25)
 	
