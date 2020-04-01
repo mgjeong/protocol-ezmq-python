@@ -28,7 +28,7 @@ To Build "protocol-ezmq-python" For windows (Step-by-step process) :
         - The above script will turn cmd to visual studio terminal.
 2. Build "protocol-ezmq-cpp" For WINDOWS: 
 	a. cd ~/protocol-ezmq-python/dependencies/ 
-	b. git clone https://github.sec.samsung.net/RS7-EdgeComputing/protocol-ezmq-cpp.git
+	b. git clone https://github.com/edgexfoundry-holding/protocol-ezmq-cpp.git
 	c. cd protocol-ezmq-cpp
 	d. Follow instruction in ~/protocol-ezmq-cpp/README_windows.txt
 		to build protocol-ezmq-cpp for windows.
@@ -66,7 +66,7 @@ To Build "protocol-ezmq-python" For LINUX (auto build process):
 To Build "protocol-ezmq-python" For LINUX (Step-by-step process): 
 =================================================================
 1. cd ~/protocol-ezmq-python/dependencies
-2. git clone https://github.sec.samsung.net/RS7-EdgeComputing/protocol-ezmq-cpp.git
+2. git clone https://github.com/edgexfoundry-holding/protocol-ezmq-cpp.git
 3. cd protocol-ezmq-cpp
 4. Build all using command :
      $ "./build_auto.sh --with_dependencies=true --target_arch=x86"
