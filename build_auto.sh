@@ -30,7 +30,7 @@ EZMQ_TARGET_ARCH="$(uname -m)"
 EZMQ_WITH_DEP=false
 EZMQ_WITH_SECURITY=false
 EZMQ_BUILD_MODE="release"
-EZMQ_CPP_REPO="git@github.sec.samsung.net:RS7-EdgeComputing/protocol-ezmq-cpp.git"
+EZMQ_CPP_REPO="git@github.com:edgexfoundry-holding/protocol-ezmq-cpp.git"
 
 install_dependencies(){
     echo -e "Building dependencies now\n"
