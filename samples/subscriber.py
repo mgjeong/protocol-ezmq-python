@@ -23,9 +23,9 @@ from build import ezmqcy as ezmq
 from abc import ABCMeta, abstractmethod
 
 counter=1
-gServerPublicKey = "tXJx&1^QE2g7WCXbF.$$TVP.wCtxwNhR8?iLi&S<"
-gClientPublicKey = "-QW?Ved(f:<::3d5tJ$[4Er&]6#9yr=vha/caBc("
-gClientSecretKey = "ZB1@RS6Kv^zucova$kH(!o>tZCQ.<!Q)6-0aWFmW"
+gServerPublicKey = ""
+gClientPublicKey = ""
+gClientSecretKey = ""
 
 def printData(eventMessage, **kwargs):
 	print "CALLBACK COUNTER :: ", globals()["counter"]
