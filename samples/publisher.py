@@ -20,7 +20,7 @@ import sys, time, struct
 sys.path.append("..") 
 from build import ezmqcy as ezmq
 
-gServerSecretKey = "[:X%Q3UfY+kv2A^.wv:(qy2E=bk0L][cm=mS3Hcx"
+gServerSecretKey = ""
 def getEventData():
 	event = ezmq.pyEvent()
 	event.init()

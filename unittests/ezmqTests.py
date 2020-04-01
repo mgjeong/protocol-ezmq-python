@@ -68,7 +68,7 @@ def publish(**kwargs):
 	apiObj.initialize()
 	publisher = ezmq.pyEZMQPublisher(int(port))
 	if secure == 1:
-		publisher.setServerPrivateKey("[:X%Q3UfY+kv2A^.wv:(qy2E=bk0L][cm=mS3Hcx")
+		publisher.setServerPrivateKey("")
 	publisher.start()
 
 	while counter != 0 :
@@ -112,9 +112,9 @@ def subscribe(**kwargs):
 	cb = callback()
 	subscriber = ezmq.pyEZMQSubscriber(ip, int(port), cb)
 	if secure == 1:
-		subscriber.setServerPublicKey("tXJx&1^QE2g7WCXbF.$$TVP.wCtxwNhR8?iLi&S<")
-		subscriber.setClientKeys("ZB1@RS6Kv^zucova$kH(!o>tZCQ.<!Q)6-0aWFmW", 
-			"-QW?Ved(f:<::3d5tJ$[4Er&]6#9yr=vha/caBc(")
+		subscriber.setServerPublicKey("")
+		subscriber.setClientKeys("", 
+			"")
 	subscriber.start()
 	if topicName == "":
 		subscriber.subscribe()
